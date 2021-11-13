@@ -1,3 +1,8 @@
+<script lang="ts">
+import Menubar from "./menubar.svelte";
+
+
+</script>
 <div class="window glass">
     <div class="title-bar">
         <div class="title-bar-text"></div>
@@ -7,6 +12,7 @@
             <button aria-label="Close"></button>
         </div>
     </div>
+    <Menubar/>
     <div class="window-body">
         <slot></slot>
     </div>
@@ -14,6 +20,6 @@
 
 <style>
     .window-body {
-        height: calc(100vh - 50px);
+        height: calc(100vh - 90px);
     }
 </style>
