@@ -5,33 +5,33 @@
 <ul class="tree-view">
     <li>
         <details open={showLibraryDropDown}>
-            <summary on:click={() => showLibraryDropDown = !showLibraryDropDown}>
-                <button>
+            <summary>
+                <button class="explorer-button">
                     <img src="images/explorer.ico" alt="" class="libraries-icon" />
                     Libraries
                 </button>
             </summary>
             <ul>
                 <li class="explorer-item">
-                    <button>
+                    <button class="explorer-button">
                         <img src="images/sidebar/document-folder.png" alt="" />
                         Documents
                     </button>
                 </li>
                 <li class="explorer-item">
-                    <button>
+                    <button class="explorer-button">
                         <img src="images/sidebar/music-folder.png" alt="" />
                         Music
                     </button>
                 </li>
                 <li class="explorer-item">
-                    <button>
+                    <button class="explorer-button">
                         <img src="images/sidebar/pictures-folder.png" alt="" />
                         Pictures
                     </button> 
                 </li>
                 <li class="explorer-item">
-                    <button>
+                    <button class="explorer-button">
                         <img src="images/sidebar/videos-folder.png" alt="" />
                         Videos
                     </button>
@@ -54,6 +54,10 @@
     .explorer-item button {
         display: flex;
         align-items: center;
+        padding-left: 28px;
+    }
+    .explorer-item {
+        margin-top: 0;
     }
     
     .explorer-item img {
@@ -75,5 +79,12 @@
     summary img {
         margin-right: 5px;
         margin-bottom: 2px;
+    }
+    summary .explorer-button {
+        padding-left: 2px;
+    }
+
+    .tree-view ul  {
+        padding-left: 0;
     }
 </style>
