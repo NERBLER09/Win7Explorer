@@ -1,11 +1,12 @@
 <script lang="ts">
-import { showLibrariesView } from "../../data/main-view";
+import { openedFilePath, showLibrariesView } from "../../data/main-view";
 
 
     let showLibraryDropDown = true
 
-    const openFolder = () => {
+    const openFolder = (path: string) => {
         showLibrariesView.set(false)
+        openedFilePath.set(path)
     }
     const showLibrariesViewFunction = () => {
         showLibrariesView.set(true)
@@ -22,25 +23,25 @@ import { showLibrariesView } from "../../data/main-view";
                 </button>
             </summary>
             <ul>
-                <li class="explorer-item" on:click="{openFolder}">
+                <li class="explorer-item" on:click="{() => openFolder(process.env.HOME + "/Documents")}">
                     <button class="explorer-button">
                         <img src="images/sidebar/document-folder.png" alt="" />
                         Documents
                     </button>
                 </li>
-                <li class="explorer-item" on:click="{openFolder}">
+                <li class="explorer-item" on:click="{() => openFolder(process.env.HOME + "/Music")}">
                     <button class="explorer-button">
                         <img src="images/sidebar/music-folder.png" alt="" />
                         Music
                     </button>
                 </li>
-                <li class="explorer-item" on:click="{openFolder}">
+                <li class="explorer-item" on:click="{() => openFolder(process.env.HOME + "/Pictures")}">
                     <button class="explorer-button">
                         <img src="images/sidebar/pictures-folder.png" alt="" />
                         Pictures
                     </button> 
                 </li>
-                <li class="explorer-item" on:click="{openFolder}">
+                <li class="explorer-item" on:click="{() => openFolder(process.env.HOME + "/Videos")}">
                     <button class="explorer-button">
                         <img src="images/sidebar/videos-folder.png" alt="" />
                         Videos

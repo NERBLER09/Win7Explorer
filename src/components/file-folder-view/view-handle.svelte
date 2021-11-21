@@ -25,9 +25,6 @@ openedFilePath.subscribe(path => {
     getFolders(path)
     getFiles(path)
 })
-
-$: console.log(userFiles)
-
 </script>
 <div class="view">
     <div class="view-handle view-{$folderViewSystem}">
@@ -50,5 +47,6 @@ $: console.log(userFiles)
     .view {
         width: 100%;
         overflow: auto;
+        padding: 5px 20px;
     }
 </style>

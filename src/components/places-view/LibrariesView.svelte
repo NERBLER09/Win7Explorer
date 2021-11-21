@@ -1,3 +1,13 @@
+<script lang="ts">
+import { openedFilePath, showLibrariesView } from "../../data/main-view";
+
+
+    const openFolder = (path) => {
+        showLibrariesView.set(false)
+        openedFilePath.set(path)
+    }
+</script>
+
 <div class="libraries-view">
     <header class="header">
         <h1 class="header-title">Libraries</h1>
@@ -5,28 +15,28 @@
         <hr>
     </header>
     <div class="main">
-        <button class="library-item explorer-button" on:select="{() => console.log("hello world")}">
+        <button class="library-item explorer-button" on:dblclick="{() => openFolder(process.env.HOME + "/Documents")}">
             <img src="images/sidebar/documents-library.ico" alt="">
             <div class="text">
                 <p class="header">Documents</p>
                 <p class="sub-header">Library</p>
             </div>
         </button>
-        <button class="library-item explorer-button">
+        <button class="library-item explorer-button" on:dblclick="{() => openFolder(process.env.HOME + "/Music")}">
             <img src="images/sidebar/music-library.ico" alt="">
             <div class="text">
                 <p class="header">Music</p>
                 <p class="sub-header">Library</p>
             </div>
         </button>
-        <button class="library-item explorer-button">
+        <button class="library-item explorer-button" on:dblclick="{() => openFolder(process.env.HOME + "/Pictures")}">
             <img src="images/sidebar/photos-library.ico" alt="">
             <div class="text">
                 <p class="header">Pictures</p>
                 <p class="sub-header">Library</p>
             </div>
         </button>
-        <button class="library-item explorer-button">
+        <button class="library-item explorer-button" on:dblclick="{() => openFolder(process.env.HOME + "/Videos")}">
             <img src="images/sidebar/videos-library.ico" alt="">
             <div class="text">
                 <p class="header">Videos</p>

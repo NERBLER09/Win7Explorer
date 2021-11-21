@@ -25,7 +25,7 @@ import { folderViewSystem } from "../../data/main-view";
         else if(re.exec(fileName)[0] === ".html" || re.exec(fileName)[0] === "htm") {
             return "html"
         }
-        else if(re.exec(fileName)[0] === ".jpg") {
+        else if(re.exec(fileName)[0] === ".jpg" || re.exec(fileName)[0] === ".jpeg") {
             return "image-jpg"
         }
         else if(re.exec(fileName)[0] === ".png") {
