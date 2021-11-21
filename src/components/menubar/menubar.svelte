@@ -1,7 +1,19 @@
 <script lang="ts">
+import { openedFilePath, showLibrariesView } from "../../data/main-view";
+
+
     type navButtonState = "disabled" | "active"
     let backButtonState: navButtonState = "disabled"
     let forwardButtonState: navButtonState = "disabled"
+
+    let openedPath = ""
+
+    openedFilePath.subscribe(path => openedPath = path)
+
+    const openFolder = (path) => {
+        openedFilePath.set(path)
+        showLibrariesView.set(false)
+    }
 </script>
 
 <div class="menubar">
@@ -10,7 +22,7 @@
         <img src="images/header/forward-{forwardButtonState}.png" alt="" title="Forward to ...">
     </div>
     <div class="address-bar">
-        <input type="text" id="address-bar-input" placeholder="Path">
+        <form on:submit|preventDefault="{() => openFolder(openedPath)}"><input type="text" id="address-bar-input" value="{openedPath}"></form>
     </div>
     <div class="search">
         <input type="text" id="search-bar-input" placeholder="Search">
