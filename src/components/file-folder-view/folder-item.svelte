@@ -1,11 +1,16 @@
 <script lang="ts">
-import { folderViewSystem } from "../../data/main-view";
+import { folderViewSystem, openedFilePath } from "../../data/main-view";
 
+    const openFolder = () => {
+        let newPath
+        openedFilePath.subscribe(value => newPath = `${value}/${folderName}`)
+        openedFilePath.set(newPath)
+    }
 
     export let folderName
 </script>
 
-<button class="folder-item layout-{$folderViewSystem} explorer-button">
+<button class="folder-item layout-{$folderViewSystem} explorer-button" on:dblclick="{openFolder}">
     <img src="images/icons/folder.ico" alt="">
     <div class="text">
         <p class="header">{folderName}</p>

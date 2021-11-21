@@ -29,6 +29,12 @@ import { openedFilePath, showLibrariesView } from "../../data/main-view";
                         Documents
                     </button>
                 </li>
+                <li class="explorer-item" on:click="{() => openFolder(process.env.HOME)}">
+                    <button class="explorer-button">
+                        <img src="images/sidebar/library-folder.png" alt="" />
+                        Home 
+                    </button>
+                </li>
                 <li class="explorer-item" on:click="{() => openFolder(process.env.HOME + "/Music")}">
                     <button class="explorer-button">
                         <img src="images/sidebar/music-folder.png" alt="" />

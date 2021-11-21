@@ -22,6 +22,13 @@ import { openedFilePath, showLibrariesView } from "../../data/main-view";
                 <p class="sub-header">Library</p>
             </div>
         </button>
+        <button class="library-item explorer-button" on:dblclick="{() => openFolder(process.env.HOME)}">
+            <img src="images/sidebar/custom-library.ico" alt="">
+            <div class="text">
+                <p class="header">Home</p>
+                <p class="sub-header">Library</p>
+            </div>
+        </button>
         <button class="library-item explorer-button" on:dblclick="{() => openFolder(process.env.HOME + "/Music")}">
             <img src="images/sidebar/music-library.ico" alt="">
             <div class="text">

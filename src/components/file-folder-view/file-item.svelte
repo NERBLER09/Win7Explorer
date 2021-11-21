@@ -1,7 +1,6 @@
 <script lang="ts">
 import { folderViewSystem } from "../../data/main-view";
 
-
     export let fileName
 
     const getFileExtension = (fileNamePram) => {
@@ -44,6 +43,7 @@ import { folderViewSystem } from "../../data/main-view";
             return "unknown"
         }
     }
+
     $: fileIcon = getFileExtension(fileName)
 </script>
 
