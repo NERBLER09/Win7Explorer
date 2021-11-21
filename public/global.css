@@ -1,11 +1,13 @@
 body {
 	margin: 0;
 	padding: 0;
+	overflow: hidden;
+	user-select: none;
 }
 
 button.explorer-button {
 	background: none !important;
-	border: 0;
+	border: 0px;
 	cursor: pointer;
 }
 button.explorer-button:focus {
@@ -14,6 +16,6 @@ button.explorer-button:focus {
 	border: 1px !important;
 	background-image: linear-gradient(#f1f7fe, #dfedfe, #cfe4fe) !important;
 }
-button.explorer-button:hover {
-	background: none;
+button.explorer-button:hover:not(:focus) {
+	background-image: linear-gradient(#ffffff, #dfedfe, #f1f7fe) !important;
 }

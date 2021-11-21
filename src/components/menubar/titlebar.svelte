@@ -22,5 +22,6 @@ import Menubar from "./menubar.svelte";
     .window-body {
         height: calc(100vh - 79px);
         padding: 0;
+        background-color: white;
     }
 </style>

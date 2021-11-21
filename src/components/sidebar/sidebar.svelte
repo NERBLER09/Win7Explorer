@@ -48,8 +48,9 @@
     }
     .tree-view {
         width: 200px;
-        height: calc(100% - 38px);
+        height: calc(100%);
         border: 0;
+        border-right: 1px solid #d6e5f5;
     }
     .explorer-item button {
         display: flex;
