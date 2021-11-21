@@ -1,4 +1,5 @@
 <script lang="ts">
+import ViewHandle from "./components/file-folder-view/view-handle.svelte";
 import Titlebar from "./components/menubar/titlebar.svelte";
 import Navbar from "./components/navbar/navbar.svelte";
 import LibrariesView from "./components/places-view/LibrariesView.svelte";
@@ -13,7 +14,7 @@ import { showLibrariesView } from "./data/main-view";
         {#if $showLibrariesView}
             <LibrariesView/>
         {:else}
-            <p>Directory view to be added</p>
+            <ViewHandle/>
         {/if}
         
     </div>
