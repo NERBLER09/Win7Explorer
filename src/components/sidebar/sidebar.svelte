@@ -1,36 +1,46 @@
 <script lang="ts">
+import { showLibrariesView } from "../../data/main-view";
+
+
     let showLibraryDropDown = true
+
+    const openFolder = () => {
+        showLibrariesView.set(false)
+    }
+    const showLibrariesViewFunction = () => {
+        showLibrariesView.set(true)
+    }
 </script>
 
 <ul class="tree-view">
     <li>
         <details open={showLibraryDropDown}>
             <summary>
-                <button class="explorer-button">
+                <button class="explorer-button" on:click="{showLibrariesViewFunction}">
                     <img src="images/explorer.ico" alt="" class="libraries-icon" />
                     Libraries
                 </button>
             </summary>
             <ul>
-                <li class="explorer-item">
+                <li class="explorer-item" on:click="{openFolder}">
                     <button class="explorer-button">
                         <img src="images/sidebar/document-folder.png" alt="" />
                         Documents
                     </button>
                 </li>
-                <li class="explorer-item">
+                <li class="explorer-item" on:click="{openFolder}">
                     <button class="explorer-button">
                         <img src="images/sidebar/music-folder.png" alt="" />
                         Music
                     </button>
                 </li>
-                <li class="explorer-item">
+                <li class="explorer-item" on:click="{openFolder}">
                     <button class="explorer-button">
                         <img src="images/sidebar/pictures-folder.png" alt="" />
                         Pictures
                     </button> 
                 </li>
-                <li class="explorer-item">
+                <li class="explorer-item" on:click="{openFolder}">
                     <button class="explorer-button">
                         <img src="images/sidebar/videos-folder.png" alt="" />
                         Videos
@@ -47,8 +57,8 @@
         height: 16px;
     }
     .tree-view {
-        width: 200px;
-        height: calc(100%);
+        width: 180px !important;
+        height: 100%;
         border: 0;
         border-right: 1px solid #d6e5f5;
     }
@@ -76,6 +86,7 @@
         display: flex;
         align-items: center;
         justify-content: flex-start;
+        width: 180px !important;
     }
     summary img {
         margin-right: 5px;

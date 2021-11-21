@@ -17,7 +17,11 @@ const createWindow = () => {
     width: 800,
     height: 600,
     transparent: true,
-    // frame: false
+    // frame: false,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false
+    }
   });
 
   // and load the index.html of the app.

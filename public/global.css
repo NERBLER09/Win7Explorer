@@ -17,5 +17,5 @@ button.explorer-button:focus {
 	background-image: linear-gradient(#f1f7fe, #dfedfe, #cfe4fe) !important;
 }
 button.explorer-button:hover:not(:focus) {
-	background-image: linear-gradient(#ffffff, #dfedfe, #f1f7fe) !important;
+	background-image: linear-gradient(#ffffff, #e2f0ff) !important;
 }
