@@ -1,5 +1,7 @@
 <script lang="ts">
-import { folderViewSystem } from "../../data/main-view";
+import { get } from "svelte/store";
+
+import { folderViewSystem, openedFilePath } from "../../data/main-view";
 
     export let fileName
 
@@ -44,10 +46,32 @@ import { folderViewSystem } from "../../data/main-view";
         }
     }
 
+    const openFile = () => {
+        const file = get(openedFilePath) + "/" + fileName
+
+        const child_process = require("child_process"); //eslint-disable-line
+        /^win/.test(process.platform) ?
+            child_process.exec('start "" "' + file + '"') :
+            child_process.spawn(getCommandLine(), [file], { detached: true, stdio: 'ignore' }).unref();
+    }
+
+    /**
+     * Get command to open a file with default app on various operating systems.
+     * @returns {string}
+     */
+    const getCommandLine =():string => {
+        switch (process.platform) {
+            case 'darwin':
+                return 'open';
+            default:
+                return 'xdg-open';
+        }
+    }
+
     $: fileIcon = getFileExtension(fileName)
 </script>
 
-<button class="file-item layout-{$folderViewSystem} explorer-button">
+<button class="file-item layout-{$folderViewSystem} explorer-button" on:dblclick="{openFile}">
     <img src="images/icons/{fileIcon}.ico" alt="">
     <div class="text">
         <p>{fileName}</p>
