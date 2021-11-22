@@ -1,10 +1,11 @@
 <script lang="ts">
-import { openedFilePath, showLibrariesView } from "../../data/main-view";
-
+    import { openedFilePath, showLibrariesView } from "../../data/main-view";
+import { backLocation } from "../../data/navigation";
 
     const openFolder = (path) => {
         showLibrariesView.set(false)
         openedFilePath.set(path)
+        backLocation.update(value => ["Libraries", ...value])
     }
 </script>
 

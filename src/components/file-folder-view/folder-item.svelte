@@ -1,8 +1,13 @@
 <script lang="ts">
 import { folderViewSystem, openedFilePath } from "../../data/main-view";
+import { backLocation } from "../../data/navigation";
+
+    let path
+    openedFilePath.subscribe(value => path = value) 
 
     const openFolder = () => {
         let newPath
+        backLocation.update(value => [path, ...value])
         openedFilePath.subscribe(value => newPath = `${value}/${folderName}`)
         openedFilePath.set(newPath)
     }

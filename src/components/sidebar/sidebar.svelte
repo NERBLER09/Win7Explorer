@@ -1,5 +1,6 @@
 <script lang="ts">
 import { openedFilePath, showLibrariesView } from "../../data/main-view";
+import { backLocation } from "../../data/navigation";
 
 
     let showLibraryDropDown = true
@@ -7,6 +8,7 @@ import { openedFilePath, showLibrariesView } from "../../data/main-view";
     const openFolder = (path: string) => {
         showLibrariesView.set(false)
         openedFilePath.set(path)
+        backLocation.update(value => ["Libraries", ...value])
     }
     const showLibrariesViewFunction = () => {
         showLibrariesView.set(true)
