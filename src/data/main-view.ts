@@ -1,6 +1,6 @@
 import { Writable, writable } from "svelte/store";
 
-type folderView = "content" | "tiles" | "list" | "small-icons" | "medium-icons" | "large-icons" | "extra-large-icons"
+type folderView = "content" | "tiles" | "list" | "details" | "small-icons" | "medium-icons" | "large-icons" | "extra-large-icons"
 
 const showLibrariesView = writable(true)
 const isItemSelected = writable(false)

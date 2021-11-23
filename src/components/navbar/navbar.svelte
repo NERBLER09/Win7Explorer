@@ -1,5 +1,6 @@
 <script lang="ts">
-    import OrganizeDropdown from "./dropdown/organize-dropdown.svelte"; 
+    import LayoutSwitcher from "../menubar/layout-switcher.svelte";
+import OrganizeDropdown from "./dropdown/organize-dropdown.svelte"; 
 import ShareWithDropdown from "./dropdown/share-with-dropdown.svelte";
 
     let showDropDown = false
@@ -18,6 +19,15 @@ import ShareWithDropdown from "./dropdown/share-with-dropdown.svelte";
             <ShareWithDropdown/>
         </div>
     </li>
+
+    <div class="end">
+        <li role="menuitem" tabindex="0" class="main {showDropDown ? 'auto-show' : "keep-hidden"}" on:click="{() => showDropDown = true}" on:mouseleave="{() => showDropDown=false}">
+            <button>View</button>
+            <div class="dropdown-container">
+                <LayoutSwitcher/>
+            </div>
+        </li>
+    </div>
 </ul>
 
 <style>
