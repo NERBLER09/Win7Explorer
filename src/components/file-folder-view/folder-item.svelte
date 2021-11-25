@@ -1,4 +1,8 @@
 <script lang="ts">
+import { get } from "svelte/store";
+
+import { isFileSelected, isFolderSelected, selectedFolder } from "../../data/dynamic-menus";
+
 import { folderViewSystem, openedFilePath } from "../../data/main-view";
 import { backLocation } from "../../data/navigation";
 
@@ -13,9 +17,15 @@ import { backLocation } from "../../data/navigation";
     }
 
     export let folderName
+    
+    const selectItem = () => {
+        isFolderSelected.set(true)
+        isFileSelected.set(false)
+        selectedFolder.set(`${get(openedFilePath)}/${folderName}`)
+    }
 </script>
 
-<button class="folder-item layout-{$folderViewSystem} explorer-button" on:dblclick="{openFolder}">
+<button class="folder-item layout-{$folderViewSystem} explorer-button" on:dblclick="{openFolder}" on:click="{selectItem}">
     <img src="images/icons/folder.ico" alt="">
     <div class="text">
         <p class="header">{folderName}</p>

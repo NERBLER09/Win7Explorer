@@ -1,7 +1,9 @@
 <script lang="ts">
 import { get } from "svelte/store";
+import { isFileSelected, isFolderSelected, selectedFile } from "../../data/dynamic-menus";
 
 import { folderViewSystem, openedFilePath } from "../../data/main-view";
+import { openFile } from "../../ts/openFile";
 
     export let fileName
 
@@ -45,33 +47,17 @@ import { folderViewSystem, openedFilePath } from "../../data/main-view";
             return "unknown"
         }
     }
-
-    const openFile = () => {
-        const file = get(openedFilePath) + "/" + fileName
-
-        const child_process = require("child_process"); //eslint-disable-line
-        /^win/.test(process.platform) ?
-            child_process.exec('start "" "' + file + '"') :
-            child_process.spawn(getCommandLine(), [file], { detached: true, stdio: 'ignore' }).unref();
-    }
-
-    /**
-     * Get command to open a file with default app on various operating systems.
-     * @returns {string}
-     */
-    const getCommandLine =():string => {
-        switch (process.platform) {
-            case 'darwin':
-                return 'open';
-            default:
-                return 'xdg-open';
-        }
-    }
-
+    
     $: fileIcon = getFileExtension(fileName)
+
+    const selectItem = () => {
+        isFolderSelected.set(false)
+        isFileSelected.set(true)
+        selectedFile.set(fileName) 
+    }
 </script>
 
-<button class="file-item layout-{$folderViewSystem} explorer-button" on:dblclick="{openFile}">
+<button class="file-item layout-{$folderViewSystem} explorer-button" on:dblclick="{() => openFile()}" on:click="{selectItem}">
     <img src="images/icons/{fileIcon}.ico" alt="">
     <div class="text">
         <p>{fileName}</p>

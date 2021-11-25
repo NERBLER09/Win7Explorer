@@ -1,25 +1,33 @@
 <script lang="ts">
-    import LayoutSwitcher from "../menubar/layout-switcher.svelte";
+import { get } from "svelte/store";
+
+    import { isFileSelected, isFolderSelected, selectedFolder } from "../../data/dynamic-menus";
+import { openedFilePath } from "../../data/main-view";
+import { openFile } from "../../ts/openFile";
+import LayoutSwitcher from "../menubar/layout-switcher.svelte";
 import OrganizeDropdown from "./dropdown/organize-dropdown.svelte"; 
-import ShareWithDropdown from "./dropdown/share-with-dropdown.svelte";
 
     let showDropDown = false
+
+    const openItem = () => {
+        if(get(isFileSelected)) {
+            openFile()
+        }
+        else {
+            openedFilePath.set(get(selectedFolder))
+        }
+    }
 </script>
 <ul role="menubar">
     <li role="menuitem" tabindex="0" class="main {showDropDown ? 'auto-show' : "keep-hidden"}" on:click="{() => showDropDown = true}" on:mouseleave="{() => showDropDown=false}">
        <button>Organize</button>
         <div class="dropdown-container"><OrganizeDropdown/></div>
     </li>
-    <li role="menuitem" tabindex="0" class="main">
-        <button>Open</button>
-    </li>
-    <li role="menuitem" tabindex="0" class="main {showDropDown ? 'auto-show' : "keep-hidden"}" on:click="{() => showDropDown = true}" on:mouseleave="{() => showDropDown=false}">
-        <button>Share with</button>
-        <div class="dropdown-container">
-            <ShareWithDropdown/>
-        </div>
-    </li>
-
+    {#if $isFileSelected || $isFolderSelected}
+        <li role="menuitem" tabindex="0" class="main" on:click="{openItem}">
+            <button>Open</button>
+        </li>
+    {/if}
     <div class="end">
         <li role="menuitem" tabindex="0" class="main {showDropDown ? 'auto-show' : "keep-hidden"}" on:click="{() => showDropDown = true}" on:mouseleave="{() => showDropDown=false}">
             <button>View</button>
