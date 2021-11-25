@@ -1,8 +1,9 @@
 <script lang="ts">
-import { folderViewSystem } from "../../data/main-view";
 
+    import { folderViewSystem } from "../../data/main-view";
 
-    let viewValue = 2
+    let viewValue = parseInt(localStorage.getItem("folderView"))
+    let firstLoad = true
 
     const setViewValue = (value) => {
         switch(value) {
@@ -31,7 +32,12 @@ import { folderViewSystem } from "../../data/main-view";
                 folderViewSystem.set("extra-large-icons")
                 break
         }
-    }
+
+        if(!firstLoad) {
+            localStorage.setItem("folderView", viewValue.toString()) 
+        }
+        firstLoad = false
+   }
 
     $: setViewValue(viewValue)
 </script>

@@ -70,4 +70,13 @@ import ShareWithDropdown from "./dropdown/share-with-dropdown.svelte";
     .dropdown-container {
         display: none;
     }
+    .end {
+        margin-left: auto;
+    }
+    .end .dropdown-container {
+        position: relative;
+        top: 15px;
+        right: -200px;
+        left: -210px !important;
+    }
 </style>

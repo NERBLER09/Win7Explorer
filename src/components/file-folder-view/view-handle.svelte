@@ -49,4 +49,14 @@ openedFilePath.subscribe(path => {
         overflow: auto;
         padding: 5px 20px;
     }
+    .view-content, .view-details {
+        display: flex;
+        flex-wrap: nowrap !important;
+        align-items: flex-start;
+        justify-content: flex-start;
+        flex-direction: column;
+    }
+    .view-list, .view-small-icons {
+        columns: auto;
+    }
 </style>
