@@ -1,8 +1,10 @@
 <script lang="ts">
+const fs = require('fs');
+
 import { get } from "svelte/store";
 
     import { isFileSelected, isFolderSelected, selectedFolder } from "../../data/dynamic-menus";
-import { openedFilePath } from "../../data/main-view";
+import { openedFilePath, showLibrariesView } from "../../data/main-view";
 import { openFile } from "../../ts/openFile";
 import LayoutSwitcher from "../menubar/layout-switcher.svelte";
 import OrganizeDropdown from "./dropdown/organize-dropdown.svelte"; 
@@ -17,6 +19,15 @@ import OrganizeDropdown from "./dropdown/organize-dropdown.svelte";
             openedFilePath.set(get(selectedFolder))
         }
     }
+    const createNewFolder = async() => {
+        try {
+            await fs.mkdir(`${get(openedFilePath)}/New Folder`, () => {})
+        }
+        catch (error){
+            console.log(error)
+            alert("Looks like a folder with the same name exists.")
+        }
+    }
 </script>
 <ul role="menubar">
     <li role="menuitem" tabindex="0" class="main {showDropDown ? 'auto-show' : "keep-hidden"}" on:click="{() => showDropDown = true}" on:mouseleave="{() => showDropDown=false}">
@@ -26,6 +37,11 @@ import OrganizeDropdown from "./dropdown/organize-dropdown.svelte";
     {#if $isFileSelected || $isFolderSelected}
         <li role="menuitem" tabindex="0" class="main" on:click="{openItem}">
             <button>Open</button>
+        </li>
+    {/if}
+    {#if !$showLibrariesView}
+        <li role="menuitem" tabindex="0" class="main" on:click="{createNewFolder}">
+            <button>New Folder</button>
         </li>
     {/if}
     <div class="end">
