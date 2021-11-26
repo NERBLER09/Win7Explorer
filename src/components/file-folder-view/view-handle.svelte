@@ -7,7 +7,7 @@ import FileContextMenu from "../context-menu/file-context-menu.svelte";
 import FileItem from "./file-item.svelte";
 import FolderItem from "./folder-item.svelte";
 
-const { readdirSync } = require("fs")
+const { readdirSync, watch } = require("fs")
 
 let userFolders = []
 let userFiles = []
@@ -24,6 +24,10 @@ const getFiles = (source) => {
 }
 
 openedFilePath.subscribe(path => {
+    watch(get(openedFilePath), (eventType, filename) => {
+        getFolders(path)
+        getFiles(path)
+    })
     getFolders(path)
     getFiles(path)
 })
