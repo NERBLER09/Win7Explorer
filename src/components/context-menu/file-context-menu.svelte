@@ -1,9 +1,14 @@
 <script lang="ts">
 import { showFileContextMenu } from "../../data/main-view"
-import { openFile } from "../../ts/openFile";
+import { openFile } from "../../ts/openFile"
+import { showDeleteFilePrompt } from "../../data/prompts";
 
     export let rightPos: number
     export let topPos: number
+
+    const deleteFile = () => {
+        showDeleteFilePrompt.set(true)
+    }
 </script>
 
 {#if $showFileContextMenu}
@@ -15,7 +20,7 @@ import { openFile } from "../../ts/openFile";
             <li role="menuitem" on:click="{() => openFile()}" class="has-divider"><a href="#menu">Open</a></li>
             <ul role="menuitem"><a href="#menu">Cut</a></ul>
             <ul role="menuitem" class="has-divider"><a href="#menu">Copy</a></ul>
-            <ul role="menuitem"><a href="#menu">Delete</a></ul>
+            <ul role="menuitem" on:click="{() => deleteFile()}"><a href="#menu">Delete</a></ul>
             <ul role="menuitem" class="has-divider"><a href="#menu">Rename</a></ul>
             <ul role="menuitem"><a href="#menu">Properties</a></ul>
         </ul>

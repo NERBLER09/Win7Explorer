@@ -1,6 +1,5 @@
 <script>
 
-import { onMount } from "svelte";
 import { get } from "svelte/store";
 
 import { folderViewSystem, openedFilePath, showFileContextMenu } from "../../data/main-view";
