@@ -6,6 +6,7 @@ type folderView = "content" | "tiles" | "list" | "details" | "small-icons" | "me
 const showLibrariesView = writable(true)
 const openedFilePath = writable(process.env.HOME)
 const folderViewSystem: Writable<folderView> = writable("tiles")
+const showFileContextMenu = writable(false)
 
 openedFilePath.subscribe(() => {
     if (get(isFileSelected) === true|| get(isFolderSelected) === true) {
@@ -17,5 +18,6 @@ openedFilePath.subscribe(() => {
 export {
     showLibrariesView,
     openedFilePath,
-    folderViewSystem
+    folderViewSystem,
+    showFileContextMenu
 }

@@ -1,7 +1,10 @@
 <script>
-import { onMount } from "svelte";
 
-import { folderViewSystem, openedFilePath } from "../../data/main-view";
+import { onMount } from "svelte";
+import { get } from "svelte/store";
+
+import { folderViewSystem, openedFilePath, showFileContextMenu } from "../../data/main-view";
+import FileContextMenu from "../context-menu/file-context-menu.svelte";
 import FileItem from "./file-item.svelte";
 import FolderItem from "./folder-item.svelte";
 
@@ -25,9 +28,19 @@ openedFilePath.subscribe(path => {
     getFolders(path)
     getFiles(path)
 })
+
+let topPos
+let rightPos
+
+const getMousePos = (event) => {
+    if(!get(showFileContextMenu)) {
+        topPos = event.clientY + window.scrollY
+        rightPos = event.clientX + window.scrollX
+    }    
+}
 </script>
-<div class="view">
-    <div class="view-handle view-{$folderViewSystem}">
+<div class="view" on:mousemove="{(event) => getMousePos(event)}">
+   <div class="view-handle view-{$folderViewSystem}">
         {#each userFolders as folder}
             <FolderItem folderName={folder}/>
         {/each}
@@ -35,6 +48,7 @@ openedFilePath.subscribe(path => {
             <FileItem fileName={file}/> 
         {/each}
     </div>
+    <FileContextMenu bind:topPos={topPos} bind:rightPos={rightPos}/> 
 </div>
 
 <style>

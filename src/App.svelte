@@ -16,7 +16,6 @@ import { showLibrariesView } from "./data/main-view";
         {:else}
             <ViewHandle/>
         {/if}
-        
     </div>
 </Titlebar>
 
