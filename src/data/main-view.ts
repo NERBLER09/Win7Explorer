@@ -7,6 +7,7 @@ const showLibrariesView = writable(true)
 const openedFilePath = writable(process.env.HOME)
 const folderViewSystem: Writable<folderView> = writable("tiles")
 const showFileContextMenu = writable(false)
+const showFolderContextMenu = writable(false)
 
 openedFilePath.subscribe(() => {
     if (get(isFileSelected) === true|| get(isFolderSelected) === true) {
@@ -19,5 +20,6 @@ export {
     showLibrariesView,
     openedFilePath,
     folderViewSystem,
-    showFileContextMenu
+    showFileContextMenu,
+    showFolderContextMenu
 }

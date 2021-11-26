@@ -4,6 +4,7 @@ import Titlebar from "./components/menubar/titlebar.svelte";
 import Navbar from "./components/navbar/navbar.svelte";
 import LibrariesView from "./components/places-view/LibrariesView.svelte";
 import DeleteFile from "./components/prompts/DeleteFile.svelte";
+import DeleteFolder from "./components/prompts/DeleteFolder.svelte";
 import Sidebar from "./components/sidebar/sidebar.svelte";
 import { showLibrariesView } from "./data/main-view";
 </script>
@@ -13,6 +14,7 @@ import { showLibrariesView } from "./data/main-view";
     <div class="align-beside">
         <Sidebar/>
         <DeleteFile/>
+        <DeleteFolder/>
         {#if $showLibrariesView}
             <LibrariesView/>
         {:else}

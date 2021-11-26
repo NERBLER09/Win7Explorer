@@ -3,7 +3,7 @@ import { get } from "svelte/store";
 
 import { isFileSelected, isFolderSelected, selectedFolder } from "../../data/dynamic-menus";
 
-import { folderViewSystem, openedFilePath } from "../../data/main-view";
+import { folderViewSystem, openedFilePath, showFolderContextMenu } from "../../data/main-view";
 import { backLocation } from "../../data/navigation";
 
     let path
@@ -23,9 +23,13 @@ import { backLocation } from "../../data/navigation";
         isFileSelected.set(false)
         selectedFolder.set(`${get(openedFilePath)}/${folderName}`)
     }
+    const showContextMenu = () => {
+        selectItem()
+        showFolderContextMenu.set(true)
+    }
 </script>
 
-<button class="folder-item layout-{$folderViewSystem} explorer-button" on:dblclick="{openFolder}" on:click="{selectItem}">
+<button class="folder-item layout-{$folderViewSystem} explorer-button" on:dblclick="{openFolder}" on:click="{selectItem}" on:contextmenu="{showContextMenu}">
     <img src="images/icons/folder.ico" alt="">
     <div class="text">
         <p class="header">{folderName}</p>
