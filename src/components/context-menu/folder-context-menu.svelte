@@ -1,6 +1,6 @@
 <script lang="ts">
 import { openedFilePath, showFileContextMenu, showFolderContextMenu } from "../../data/main-view"
-import { showDeleteFilePrompt, showDeleteFolderPrompt } from "../../data/prompts";
+import { renameItem, showDeleteFilePrompt, showDeleteFolderPrompt, showRenamePrompt } from "../../data/prompts";
 import { copiedFile, selectedFile, selectedFolder } from "../../data/dynamic-menus";
 import { get } from "svelte/store";
 
@@ -16,6 +16,11 @@ import { get } from "svelte/store";
     const openFolder = () => {
         openedFilePath.set(get(selectedFolder))
     }
+
+    const renameFolder = () => {
+        showRenamePrompt.set(true)
+        renameItem.set("folder")
+    }
 </script>
 
 {#if $showFolderContextMenu}
@@ -28,7 +33,7 @@ import { get } from "svelte/store";
             <ul role="menuitem" on:click="{copyFile}"><a href="#menu">Cut</a></ul>
             <ul role="menuitem" class="has-divider" on:click="{copyFile}"><a href="#menu">Copy</a></ul>
             <ul role="menuitem" on:click="{() => deleteFile()}"><a href="#menu">Delete</a></ul>
-            <ul role="menuitem" class="has-divider"><a href="#menu">Rename</a></ul>
+            <ul role="menuitem" class="has-divider" on:click="{renameFolder}"><a href="#menu">Rename</a></ul>
             <ul role="menuitem"><a href="#menu">Properties</a></ul>
         </ul>
     </div>
