@@ -1,5 +1,5 @@
 <script lang="ts">
-import { openedFilePath, showLibrariesView } from "../../data/main-view";
+import { customLibraries, openedFilePath, showLibrariesView } from "../../data/main-view";
 import { backLocation } from "../../data/navigation";
 
 
@@ -55,6 +55,14 @@ import { backLocation } from "../../data/navigation";
                         Videos
                     </button>
                 </li>
+                {#each $customLibraries as {name, path} }
+                    <li class="explorer-item" on:click="{() => openFolder(path)}">
+                        <button class="explorer-button">
+                            <img src="images/sidebar/library-folder.png" alt="" />
+                            {name} 
+                        </button>
+                    </li> 
+                {/each} 
             </ul>
         </details>
     </li>
