@@ -1,12 +1,11 @@
 <script lang="ts">
-    import { get } from "svelte/store";
     import {
         isFileSelected,
         isFolderSelected,
         selectedFile,
     } from "../../data/dynamic-menus";
 
-    import { folderViewSystem, openedFilePath, showFileContextMenu } from "../../data/main-view";
+    import { folderViewSystem, showFileContextMenu } from "../../data/main-view";
     import { openFile } from "../../ts/openFile";
 
     export let fileName;
@@ -80,7 +79,7 @@
     on:click="{selectItem}"
     on:contextmenu="{showContextMenu}"
 >
-    <img src="images/icons/{fileIcon}.ico" alt="" />
+    <img src="images/icons/{fileIcon}.png" alt="" />
     <div class="text">
         <p>{fileName}</p>
     </div>
