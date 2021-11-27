@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { openedFilePath, showLibrariesView } from "../../data/main-view";
+    import { customLibraries, openedFilePath, showLibrariesView } from "../../data/main-view";
 import { backLocation } from "../../data/navigation";
 
     const openFolder = (path) => {
@@ -51,6 +51,16 @@ import { backLocation } from "../../data/navigation";
                 <p class="sub-header">Library</p>
             </div>
         </button>
+
+        {#each $customLibraries as {name, path} }
+            <button class="library-item explorer-button" on:dblclick="{() => openFolder(path)}">
+                <img src="images/sidebar/custom-library.ico" alt="">
+                <div class="text">
+                    <p class="header">{name}</p>
+                    <p class="sub-header">Library</p>
+                </div>
+            </button>   
+        {/each}
     </div>
 </div>
 

@@ -3,6 +3,7 @@ import ViewHandle from "./components/file-folder-view/view-handle.svelte";
 import Titlebar from "./components/menubar/titlebar.svelte";
 import Navbar from "./components/navbar/navbar.svelte";
 import LibrariesView from "./components/places-view/LibrariesView.svelte";
+import CreateNewLibrary from "./components/prompts/CreateNewLibrary.svelte";
 import DeleteFile from "./components/prompts/DeleteFile.svelte";
 import DeleteFolder from "./components/prompts/DeleteFolder.svelte";
 import Sidebar from "./components/sidebar/sidebar.svelte";
@@ -15,6 +16,7 @@ import { showLibrariesView } from "./data/main-view";
         <Sidebar/>
         <DeleteFile/>
         <DeleteFolder/>
+        <CreateNewLibrary/>
         {#if $showLibrariesView}
             <LibrariesView/>
         {:else}

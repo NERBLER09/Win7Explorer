@@ -5,6 +5,7 @@ import { get } from "svelte/store";
 
     import { isFileSelected, isFolderSelected, selectedFolder } from "../../data/dynamic-menus";
 import { openedFilePath, showLibrariesView } from "../../data/main-view";
+import { showNewLibraryPopup } from "../../data/prompts";
 import { openFile } from "../../ts/openFile";
 import LayoutSwitcher from "../menubar/layout-switcher.svelte";
 import OrganizeDropdown from "./dropdown/organize-dropdown.svelte"; 
@@ -28,6 +29,10 @@ import OrganizeDropdown from "./dropdown/organize-dropdown.svelte";
             alert("Looks like a folder with the same name exists.")
         }
     }
+
+    const createNewLibrary = () => {
+        showNewLibraryPopup.set(true)
+    }
 </script>
 <ul role="menubar">
     <li role="menuitem" tabindex="0" class="main {showDropDown ? 'auto-show' : "keep-hidden"}" on:click="{() => showDropDown = true}" on:mouseleave="{() => showDropDown=false}">
@@ -42,6 +47,11 @@ import OrganizeDropdown from "./dropdown/organize-dropdown.svelte";
     {#if !$showLibrariesView}
         <li role="menuitem" tabindex="0" class="main" on:click="{createNewFolder}">
             <button>New Folder</button>
+        </li>
+    {/if}
+    {#if $showLibrariesView}
+        <li role="menuitem" tabindex="0" class="main" on:click="{createNewLibrary}">
+            <button>New Library</button>
         </li>
     {/if}
     <div class="end">

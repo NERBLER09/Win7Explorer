@@ -9,6 +9,12 @@ const folderViewSystem: Writable<folderView> = writable("tiles")
 const showFileContextMenu = writable(false)
 const showFolderContextMenu = writable(false)
 
+export type customLibraryType = {
+    name: string,
+    path: string
+}
+const customLibraries: Writable<customLibraryType[]> = writable(JSON.parse(localStorage.getItem("customLibraries")) || [])
+
 openedFilePath.subscribe(() => {
     if (get(isFileSelected) === true|| get(isFolderSelected) === true) {
         isFileSelected.set(false)
@@ -21,5 +27,6 @@ export {
     openedFilePath,
     folderViewSystem,
     showFileContextMenu,
-    showFolderContextMenu
+    showFolderContextMenu,
+    customLibraries
 }

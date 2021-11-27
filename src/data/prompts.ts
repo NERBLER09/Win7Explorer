@@ -2,8 +2,10 @@ import { writable } from "svelte/store";
 
 const showDeleteFilePrompt = writable(false)
 const showDeleteFolderPrompt = writable(false)
+const showNewLibraryPopup = writable(false)
 
 export {
     showDeleteFilePrompt,
-    showDeleteFolderPrompt
+    showDeleteFolderPrompt,
+    showNewLibraryPopup
 }
