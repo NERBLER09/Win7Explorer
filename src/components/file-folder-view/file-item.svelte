@@ -5,14 +5,18 @@
         selectedFile,
     } from "../../data/dynamic-menus";
 
-    import { folderViewSystem, showFileContextMenu } from "../../data/main-view";
-import { getFileIcon } from "../../ts/getFileIcon";
+    import {
+        folderViewSystem,
+        showFileContextMenu,
+        showGlobalContextMenu,
+    } from "../../data/main-view";
+    import { getFileIcon } from "../../ts/getFileIcon";
     import { openFile } from "../../ts/openFile";
 
     export let fileName;
 
     const getFileExtension = (fileNamePram) => {
-        return getFileIcon(fileNamePram)
+        return getFileIcon(fileNamePram);
     };
 
     $: fileIcon = getFileExtension(fileName);
@@ -23,16 +27,17 @@ import { getFileIcon } from "../../ts/getFileIcon";
         selectedFile.set(fileName);
     };
     const showContextMenu = () => {
-        selectItem()
-        showFileContextMenu.set(true)
-    }
+        selectItem();
+        showGlobalContextMenu.set(false);
+        showFileContextMenu.set(true);
+    };
 </script>
 
 <button
     class="file-item layout-{$folderViewSystem} explorer-button"
-    on:dblclick="{() => openFile()}"
-    on:click="{selectItem}"
-    on:contextmenu="{showContextMenu}"
+    on:dblclick={() => openFile()}
+    on:click={selectItem}
+    on:contextmenu={showContextMenu}
 >
     <img src="images/icons/{fileIcon}.png" alt="" />
     <div class="text">

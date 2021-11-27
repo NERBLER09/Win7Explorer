@@ -3,7 +3,7 @@ import { get } from "svelte/store";
 
 import { isFileSelected, isFolderSelected, selectedFolder } from "../../data/dynamic-menus";
 
-import { folderViewSystem, openedFilePath, showFolderContextMenu } from "../../data/main-view";
+import { folderViewSystem, openedFilePath, showFolderContextMenu, showGlobalContextMenu } from "../../data/main-view";
 import { backLocation } from "../../data/navigation";
 
     let path
@@ -25,6 +25,7 @@ import { backLocation } from "../../data/navigation";
     }
     const showContextMenu = () => {
         selectItem()
+        showGlobalContextMenu.set(false)
         showFolderContextMenu.set(true)
     }
 </script>

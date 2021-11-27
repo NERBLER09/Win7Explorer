@@ -8,6 +8,7 @@ const openedFilePath = writable(process.env.HOME)
 const folderViewSystem: Writable<folderView> = writable("tiles")
 const showFileContextMenu = writable(false)
 const showFolderContextMenu = writable(false)
+const showGlobalContextMenu = writable(false)
 
 export type customLibraryType = {
     name: string,
@@ -28,5 +29,6 @@ export {
     folderViewSystem,
     showFileContextMenu,
     showFolderContextMenu,
-    customLibraries
+    customLibraries,
+    showGlobalContextMenu
 }

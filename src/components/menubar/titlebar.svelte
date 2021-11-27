@@ -1,5 +1,5 @@
 <script lang="ts">
-import { showFileContextMenu, showFolderContextMenu } from "../../data/main-view";
+import { showFileContextMenu, showFolderContextMenu, showGlobalContextMenu } from "../../data/main-view";
 
 import Menubar from "./menubar.svelte";
 
@@ -18,6 +18,7 @@ import Menubar from "./menubar.svelte";
     <div class="window-body" on:click="{() => {
         showFileContextMenu.set(false) 
         showFolderContextMenu.set(false)
+        showGlobalContextMenu.set(false)
     }}">
         <slot></slot>
     </div>

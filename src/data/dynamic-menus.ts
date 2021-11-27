@@ -7,11 +7,14 @@ const selectedFolder = writable("")
 
 const copiedFile = writable("")
 const isFileCopied = writable(false)
+const copiedFileName = writable("")
 
 export {
     isFileSelected,
     isFolderSelected,
     selectedFile,
     selectedFolder,
-    copiedFile
+    copiedFile,
+    isFileCopied,
+    copiedFileName
 }
