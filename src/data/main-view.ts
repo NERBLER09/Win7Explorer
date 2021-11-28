@@ -21,6 +21,8 @@ openedFilePath.subscribe(() => {
         isFileSelected.set(false)
         isFolderSelected.set(false)
     }
+
+    document.title = get(openedFilePath)
 })
 
 export {
