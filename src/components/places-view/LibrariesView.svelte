@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { customLibraries, openedFilePath, showLibrariesView } from "../../data/main-view";
+    import { customLibraries, openedFilePath, showLibrariesView, showLibraryPanel } from "../../data/main-view";
 import { backLocation } from "../../data/navigation";
 
     const openFolder = (path) => {
@@ -10,11 +10,13 @@ import { backLocation } from "../../data/navigation";
 </script>
 
 <div class="libraries-view">
-    <header class="header">
-        <h1 class="header-title">Libraries</h1>
-        <p class="header-sub-text">Open a library to see your files and arrange them by folder, date, and other properties.</p>
-        <hr>
-    </header>
+    {#if $showLibraryPanel}
+        <header class="header">
+            <h1 class="header-title">Libraries</h1>
+            <p class="header-sub-text">Open a library to see your files and arrange them by folder, date, and other properties.</p>
+            <hr>
+        </header>   
+    {/if}
     <div class="main">
         <button class="library-item explorer-button" on:dblclick="{() => openFolder(process.env.HOME + "/Documents")}">
             <img src="images/sidebar/documents-library.ico" alt="">

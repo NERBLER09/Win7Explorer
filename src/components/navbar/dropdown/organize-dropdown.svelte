@@ -1,5 +1,12 @@
 <!-- TODO: Add images to menu items -->
 
+<script lang="ts">
+import { showDetailsPanel, showLibraryPanel, showSideBar } from "../../../data/main-view";
+
+
+
+</script>
+
 <ul role="menu" class="keep-shown">
     <li role="menuitem">
         <img src="" alt="" />
@@ -28,33 +35,21 @@
     <li role="menuitem" aria-haspopup="true" tabindex="0">
         Layout
         <ul role="menu">
-            <li role="menuitem" class="has-divider">
-                <a href="#menu">
-                    <input type="checkbox" name="" id="menuBar" />
-                    <label for="menuBar">Menu Bar</label>
-                </a>
-            </li>
             <li role="menuitem">
                 <a href="#menu">
-                    <input type="checkbox" name="" id="details" checked />
+                    <input type="checkbox" name="" id="details" bind:checked="{$showDetailsPanel}"/>
                     <label for="details">Details Pane</label>
                 </a>
             </li>
             <li role="menuitem">
                 <a href="#menu">
-                    <input type="checkbox" name="" id="preview" />
-                    <label for="preview">Preview pane</label>
-                </a>
-            </li>
-            <li role="menuitem">
-                <a href="#menu">
-                    <input type="checkbox" name="" id="navigation" checked/>
+                    <input type="checkbox" name="" id="navigation" bind:checked="{$showSideBar}"/>
                     <label for="navigation">Navigation pane</label>
                 </a>
             </li>
             <li role="menuitem">
                 <a href="#menu">
-                    <input type="checkbox" name="" id="library" />
+                    <input type="checkbox" name="" id="library" bind:checked="{$showLibraryPanel}"/>
                     <label for="library">Library pane</label>
                 </a>
             </li>

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { customLibraries, openedFilePath, showLibrariesView } from "../../data/main-view";
+import { customLibraries, openedFilePath, showLibrariesView, showSideBar } from "../../data/main-view";
 import { backLocation } from "../../data/navigation";
 
 
@@ -15,58 +15,60 @@ import { backLocation } from "../../data/navigation";
     }
 </script>
 
-<ul class="tree-view">
-    <li>
-        <details open={showLibraryDropDown}>
-            <summary>
-                <button class="explorer-button" on:click="{showLibrariesViewFunction}">
-                    <img src="images/explorer.ico" alt="" class="libraries-icon" />
-                    Libraries
-                </button>
-            </summary>
-            <ul>
-                <li class="explorer-item" on:click="{() => openFolder(process.env.HOME + "/Documents")}">
-                    <button class="explorer-button">
-                        <img src="images/sidebar/document-folder.png" alt="" />
-                        Documents
+{#if $showSideBar}
+    <ul class="tree-view">
+        <li>
+            <details open={showLibraryDropDown}>
+                <summary>
+                    <button class="explorer-button" on:click="{showLibrariesViewFunction}">
+                        <img src="images/explorer.ico" alt="" class="libraries-icon" />
+                        Libraries
                     </button>
-                </li>
-                <li class="explorer-item" on:click="{() => openFolder(process.env.HOME)}">
-                    <button class="explorer-button">
-                        <img src="images/sidebar/library-folder.png" alt="" />
-                        Home 
-                    </button>
-                </li>
-                <li class="explorer-item" on:click="{() => openFolder(process.env.HOME + "/Music")}">
-                    <button class="explorer-button">
-                        <img src="images/sidebar/music-folder.png" alt="" />
-                        Music
-                    </button>
-                </li>
-                <li class="explorer-item" on:click="{() => openFolder(process.env.HOME + "/Pictures")}">
-                    <button class="explorer-button">
-                        <img src="images/sidebar/pictures-folder.png" alt="" />
-                        Pictures
-                    </button> 
-                </li>
-                <li class="explorer-item" on:click="{() => openFolder(process.env.HOME + "/Videos")}">
-                    <button class="explorer-button">
-                        <img src="images/sidebar/videos-folder.png" alt="" />
-                        Videos
-                    </button>
-                </li>
-                {#each $customLibraries as {name, path} }
-                    <li class="explorer-item" on:click="{() => openFolder(path)}">
+                </summary>
+                <ul>
+                    <li class="explorer-item" on:click="{() => openFolder(process.env.HOME + "/Documents")}">
+                        <button class="explorer-button">
+                            <img src="images/sidebar/document-folder.png" alt="" />
+                            Documents
+                        </button>
+                    </li>
+                    <li class="explorer-item" on:click="{() => openFolder(process.env.HOME)}">
                         <button class="explorer-button">
                             <img src="images/sidebar/library-folder.png" alt="" />
-                            {name} 
+                            Home 
                         </button>
-                    </li> 
-                {/each} 
-            </ul>
-        </details>
-    </li>
-</ul>
+                    </li>
+                    <li class="explorer-item" on:click="{() => openFolder(process.env.HOME + "/Music")}">
+                        <button class="explorer-button">
+                            <img src="images/sidebar/music-folder.png" alt="" />
+                            Music
+                        </button>
+                    </li>
+                    <li class="explorer-item" on:click="{() => openFolder(process.env.HOME + "/Pictures")}">
+                        <button class="explorer-button">
+                            <img src="images/sidebar/pictures-folder.png" alt="" />
+                            Pictures
+                        </button> 
+                    </li>
+                    <li class="explorer-item" on:click="{() => openFolder(process.env.HOME + "/Videos")}">
+                        <button class="explorer-button">
+                            <img src="images/sidebar/videos-folder.png" alt="" />
+                            Videos
+                        </button>
+                    </li>
+                    {#each $customLibraries as {name, path} }
+                        <li class="explorer-item" on:click="{() => openFolder(path)}">
+                            <button class="explorer-button">
+                                <img src="images/sidebar/library-folder.png" alt="" />
+                                {name} 
+                            </button>
+                        </li> 
+                    {/each} 
+                </ul>
+            </details>
+        </li>
+    </ul>  
+{/if}
 
 <style>
     .libraries-icon {

@@ -10,6 +10,10 @@ const showFileContextMenu = writable(false)
 const showFolderContextMenu = writable(false)
 const showGlobalContextMenu = writable(false)
 
+const showDetailsPanel = writable(false)
+const showSideBar = writable(true)
+const showLibraryPanel = writable(false)
+
 export type customLibraryType = {
     name: string,
     path: string
@@ -32,5 +36,8 @@ export {
     showFileContextMenu,
     showFolderContextMenu,
     customLibraries,
-    showGlobalContextMenu
+    showGlobalContextMenu,
+    showDetailsPanel,
+    showSideBar,
+    showLibraryPanel
 }
