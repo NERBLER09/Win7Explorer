@@ -1,9 +1,12 @@
 <script lang="ts">
+import { get } from "svelte/store";
+
     import {
         isFileSelected,
         isFolderSelected,
         selectedFile,
     } from "../../data/dynamic-menus";
+import { isMouseDrag, keepItemHighlighted } from "../../data/itemMultiSelect";
 
     import {
         folderViewSystem,
@@ -31,13 +34,30 @@
         showGlobalContextMenu.set(false);
         showFileContextMenu.set(true);
     };
+
+    let appearSelected = false
+
+    const checkIfBeingSelected = () => {
+        if(get(isMouseDrag)) {
+            appearSelected = true
+        }
+    }
+
+    keepItemHighlighted.subscribe(value => {
+        if(!value) {
+            appearSelected = false
+        }
+    })
 </script>
 
+<!-- svelte-ignore a11y-mouse-events-have-key-events -->
 <button
-    class="file-item layout-{$folderViewSystem} explorer-button"
-    on:dblclick={() => openFile()}
-    on:click={selectItem}
-    on:contextmenu={showContextMenu}
+    class="file-item layout-{$folderViewSystem} explorer-button {appearSelected ? 'appear-focused' : ''}"
+    on:dblclick="{() => openFile()}"
+    on:click="{selectItem}"
+    on:contextmenu="{showContextMenu}"
+    on:mouseover="{checkIfBeingSelected}"
+    on:mouseup="{() => keepItemHighlighted.set(true)}"
 >
     <img src="images/icons/{fileIcon}.png" alt="" />
     <div class="text">

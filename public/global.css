@@ -19,3 +19,10 @@ button.explorer-button:focus {
 button.explorer-button:hover:not(:focus) {
 	background-image: linear-gradient(#ffffff, #e2f0ff) !important;
 }
+
+button.explorer-button.appear-focused:not(:hover) {
+	outline: none !important;
+	/* background-color: #cfe2fc !important; */
+	border: 1px !important;
+	background-image: linear-gradient(#f1f7fe, #dfedfe, #cfe4fe) !important;
+}
