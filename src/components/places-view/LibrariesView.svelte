@@ -69,6 +69,7 @@ import { backLocation } from "../../data/navigation";
         height: 100%;
         width: 100%;
         margin: 5px 20px;
+        overflow: hidden;
     }
     .header-title {
         font-size: 22px;
@@ -114,7 +115,8 @@ import { backLocation } from "../../data/navigation";
         display: flex;
         flex-wrap: wrap;
         align-content: flex-start;
-        height: 100%;
+        height: calc(100% - 80px);
+        overflow: auto;
     }
 
     

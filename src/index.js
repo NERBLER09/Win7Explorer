@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 require('electron-reload')(__dirname, {
   electron: path.join(__dirname, '../node_modules', '.bin', 'electron'),
@@ -17,7 +17,7 @@ const createWindow = () => {
     width: 800,
     height: 600,
     transparent: true,
-    // frame: false,
+    frame: false,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false
@@ -29,6 +29,17 @@ const createWindow = () => {
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
+  ipcMain.on("maximize", () => {
+    if(mainWindow.isMaximized()) {
+      mainWindow.restore()
+    }
+    else {
+      mainWindow.maximize()
+    }
+  })
+  ipcMain.on("minimize", () => {
+    mainWindow.minimize()
+  })
 };
 
 // This method will be called when Electron has finished

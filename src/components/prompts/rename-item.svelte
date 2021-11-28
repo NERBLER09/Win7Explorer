@@ -50,6 +50,9 @@ const checkForFileExtension = (): [boolean, string?] => {
         return [false, originalExtension]
     }
 }
+const close = () => {
+    showRenamePrompt.set(false)
+}
 </script>
 
 {#if $showRenamePrompt}
@@ -57,7 +60,7 @@ const checkForFileExtension = (): [boolean, string?] => {
         <div class="title-bar">
             <div class="title-bar-text" id="dialog-title">Rename  {$renameItem === "file" ? 'File' : "Folder"}</div>
             <div class="title-bar-controls">
-            <button aria-label="Close"></button>
+            <button aria-label="Close" on:click="{close}"></button>
             </div>
         </div>
         <div class="window-body">
@@ -68,7 +71,7 @@ const checkForFileExtension = (): [boolean, string?] => {
         </div>
         <footer style="text-align: right">
             <button on:click="{renameItemFunction}">Rename</button>
-            <button>Cancel</button>
+            <button on:click="{close}">Cancel</button>
         </footer>
     </div>
 {/if}
