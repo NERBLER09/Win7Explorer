@@ -19,11 +19,13 @@ const getFolders = (source) => {
     userFolders = readdirSync(source, { withFileTypes: true })
             .filter(dirent => dirent.isDirectory())
             .map(dirent => dirent.name) 
+            .filter(file => file.indexOf(".", 0))
 }
 const getFiles = (source) => {
     userFiles = readdirSync(source, {withFileTypes: true})
                 .filter(dirent => !dirent.isDirectory())
                 .map(dirent => dirent.name)
+                .filter(file => file.indexOf(".", 0))
 }
 
 openedFilePath.subscribe(path => {
