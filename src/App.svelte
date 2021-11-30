@@ -10,6 +10,10 @@ import FileProperties from "./components/prompts/FileProperties.svelte";
 import RenameItem from "./components/prompts/rename-item.svelte";
 import Sidebar from "./components/sidebar/sidebar.svelte";
 import { showLibrariesView } from "./data/main-view";
+
+window.onbeforeunload = () => {
+    return ""
+}
 </script>
 
 <Titlebar>
