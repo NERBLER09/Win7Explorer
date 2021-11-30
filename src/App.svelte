@@ -6,6 +6,7 @@ import LibrariesView from "./components/places-view/LibrariesView.svelte";
 import CreateNewLibrary from "./components/prompts/CreateNewLibrary.svelte";
 import DeleteFile from "./components/prompts/DeleteFile.svelte";
 import DeleteFolder from "./components/prompts/DeleteFolder.svelte";
+import FileProperties from "./components/prompts/FileProperties.svelte";
 import RenameItem from "./components/prompts/rename-item.svelte";
 import Sidebar from "./components/sidebar/sidebar.svelte";
 import { showLibrariesView } from "./data/main-view";
@@ -19,6 +20,7 @@ import { showLibrariesView } from "./data/main-view";
         <DeleteFolder/>
         <CreateNewLibrary/>
         <RenameItem/>
+        <FileProperties/>
         {#if $showLibrariesView}
             <LibrariesView/>
         {:else}

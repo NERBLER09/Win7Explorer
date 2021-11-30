@@ -4,6 +4,7 @@ const showDeleteFilePrompt = writable(false)
 const showDeleteFolderPrompt = writable(false)
 const showNewLibraryPopup = writable(false)
 const showRenamePrompt = writable(false)
+const showFilePropertiesPanel = writable(false)
 
 type renameItemType = "file" | "folder"
 const renameItem: Writable<renameItemType> = writable()
@@ -13,5 +14,7 @@ export {
     showDeleteFolderPrompt,
     showNewLibraryPopup,
     showRenamePrompt,
-    renameItem
+    renameItem,
+    showFilePropertiesPanel
+    
 }
