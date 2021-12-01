@@ -1,10 +1,13 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
-require('electron-reload')(__dirname, {
-  electron: path.join(__dirname, '../node_modules', '.bin', 'electron'),
-  awaitWriteFinish: true,
-});
+const isDev = require("electron-is-dev")
 
+if(isDev) {
+  require('electron-reload')(__dirname, {
+    electron: path.join(__dirname, '../node_modules', '.bin', 'electron'),
+    awaitWriteFinish: true,
+  });
+}
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
@@ -17,6 +20,7 @@ const createWindow = () => {
     width: 1200,
     height: 800,
     frame: false,
+    transparent: true,
     icon: `src/favicon.png`,
     webPreferences: {
       nodeIntegration: true,

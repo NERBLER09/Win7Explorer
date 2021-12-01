@@ -21,7 +21,7 @@ import { backLocation } from "../../data/navigation";
             <details open={showLibraryDropDown}>
                 <summary>
                     <button class="explorer-button" on:click="{showLibrariesViewFunction}">
-                        <img src="images/explorer.ico" alt="" class="libraries-icon" />
+                        <img src="images/explorer.png" alt="" class="libraries-icon" />
                         Libraries
                     </button>
                 </summary>
