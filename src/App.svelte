@@ -9,6 +9,7 @@ import DeleteFolder from "./components/prompts/DeleteFolder.svelte";
 import FileProperties from "./components/prompts/FileProperties.svelte";
 import RenameItem from "./components/prompts/rename-item.svelte";
 import Sidebar from "./components/sidebar/sidebar.svelte";
+import StatusBar from "./components/status-bar/status-bar.svelte";
 import { showLibrariesView } from "./data/main-view";
 </script>
 
@@ -27,6 +28,7 @@ import { showLibrariesView } from "./data/main-view";
             <ViewHandle/>
         {/if}
     </div>
+    <StatusBar/>
 </Titlebar>
 
 <style>
