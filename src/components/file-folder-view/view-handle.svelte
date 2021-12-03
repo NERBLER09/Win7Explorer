@@ -9,6 +9,8 @@ import FolderItem from "./folder-item.svelte";
 import FolderContextMenu from "../context-menu/folder-context-menu.svelte"
 import GlobalContextMenu from "../context-menu/global-context-menu.svelte";
 import { isMouseDrag, keepItemHighlighted } from "../../data/itemMultiSelect";
+import SelectItems from "./select-items.svelte";
+import { boxHeight, boxWidth, drawBox, initialMousePosX, initialMousePosY } from "../../ts/itemSelecting";
 
 const { readdirSync, watch } = require("fs")
 
@@ -63,16 +65,24 @@ const getMousePos = (event) => {
 
 let keepItemSelected = true
 
-const startItemDrag = () => {
+const startItemDrag = (event) => {
     isMouseDrag.set(true)
 
     unHighlightItems()
+
+    initialMousePosX.set(event.clientX + window.scrollX)
+    initialMousePosY.set(event.clientY + window.scrollY)
+    boxHeight.set(0)
+    boxWidth.set(0)
 }
 
-const stopItemDrag = () => {
+const stopItemDrag = (event) => {
     isMouseDrag.set(false)
     keepItemHighlighted.set(true)
     keepItemSelected = true
+    
+    boxHeight.set(0)
+    boxWidth.set(0)
 }
 const unHighlightItems = () => {    
     if(keepItemSelected === false) {
@@ -82,11 +92,15 @@ const unHighlightItems = () => {
     keepItemSelected = !keepItemSelected 
 }
 </script>
-<div class="view" on:mousemove="{(event) => getMousePos(event)}" on:contextmenu="{() => showGlobalContextMenu.set(true)}"
-    on:mousedown="{startItemDrag}"
-    on:mouseup="{stopItemDrag}"
+<div class="view" on:mousemove="{(event) => {
+    getMousePos(event)
+    drawBox(event)
+}}" on:contextmenu="{() => showGlobalContextMenu.set(true)}"
+    on:mousedown="{(event) => startItemDrag(event)}"
+    on:mouseup="{(event) => stopItemDrag(event)}"
     on:click="{unHighlightItems}"
 >
+    <SelectItems/>
    <div class="view-handle view-{$folderViewSystem}">
         {#each userFolders as folder}
             <FolderItem folderName={folder}/>
