@@ -1,8 +1,10 @@
 <script lang="ts">
+const path = require('path');
+
 const {rename} = require("fs")
 
 import { get } from "svelte/store";
-import { selectedFile, selectedFolder } from "../../data/dynamic-menus";
+import { selectedFile, selectedFolder, selectedItemName } from "../../data/dynamic-menus";
 import { openedFilePath } from "../../data/main-view";
 
 import { renameItem, showRenamePrompt } from "../../data/prompts";
@@ -11,14 +13,7 @@ let newName = ""
 
 const renameItemFunction = () => {
     if(get(renameItem) === "file") {
-        const containsFileExtension = checkForFileExtension()[0]
-        const fileExtension = checkForFileExtension()[1]
-
-        if(!containsFileExtension) {
-            newName = `${newName}${fileExtension}`
-        }
-
-        rename(`${get(openedFilePath)}/${get(selectedFile)}`, `${get(openedFilePath)}/${newName}`, (error) => {
+       rename(`${get(openedFilePath)}/${get(selectedFile)}`, `${get(openedFilePath)}/${newName}`, (error) => {
             if(error) {
                 alert(error)
             }
@@ -37,22 +32,23 @@ const renameItemFunction = () => {
     }
 }
 
-// Checks if new name includes file extension
-const checkForFileExtension = (): [boolean, string?] => {
-    const re = /(?:\.([^.]+))?$/; // Gets the file extension
-
-    const originalExtension = re.exec(`${get(selectedFile)}`)[0]
-
-    if(newName.includes(originalExtension)) {
-        return [true]
-    }
-    else {
-        return [false, originalExtension]
-    }
-}
 const close = () => {
     showRenamePrompt.set(false)
 }
+
+let renameElement: HTMLInputElement
+
+selectedItemName.subscribe(value => {
+    newName = value
+})
+
+const selectText = (renameElement) => {
+    if(renameElement === null) return
+    renameElement.focus()
+    renameElement.setSelectionRange(0, get(selectedItemName).length - path.extname(get(selectedItemName)).length)
+}
+
+$: selectText(renameElement)
 </script>
 
 {#if $showRenamePrompt}
@@ -66,7 +62,7 @@ const close = () => {
         <div class="window-body">
             <form action="">
                 <label for="name-input">New name:</label>
-                <input type="text" id="name-input" bind:value="{newName}">
+                <input type="text" id="name-input" bind:value="{newName}" bind:this="{renameElement}">
             </form>
         </div>
         <footer style="text-align: right">
@@ -79,5 +75,9 @@ const close = () => {
     div.window {
         opacity: 100;
         visibility: visible;
+    }
+
+    input {
+        width: 300px;
     }
 </style>

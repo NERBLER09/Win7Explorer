@@ -1,7 +1,7 @@
 <script lang="ts">
 import { get } from "svelte/store";
 
-import { isFileSelected, isFolderSelected, selectedFolder } from "../../data/dynamic-menus";
+import { isFileSelected, isFolderSelected, selectedFolder, selectedItemName } from "../../data/dynamic-menus";
 import { isMouseDrag, keepItemHighlighted } from "../../data/itemMultiSelect";
 
 import { folderViewSystem, openedFilePath, showFolderContextMenu, showGlobalContextMenu } from "../../data/main-view";
@@ -22,6 +22,7 @@ import { backLocation } from "../../data/navigation";
     const selectItem = () => {
         isFolderSelected.set(true)
         isFileSelected.set(false)
+        selectedItemName.set(folderName)
         selectedFolder.set(`${get(openedFilePath)}/${folderName}`)
     }
     const showContextMenu = () => {

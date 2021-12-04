@@ -5,6 +5,7 @@
         isFileSelected,
         isFolderSelected,
         selectedFile,
+selectedItemName,
     } from "../../data/dynamic-menus";
     import {
         isMouseDrag,
@@ -31,6 +32,7 @@
         isFolderSelected.set(false);
         isFileSelected.set(true);
         selectedFile.set(fileName);
+        selectedItemName.set(fileName)
     };
     const showContextMenu = () => {
         selectItem();
