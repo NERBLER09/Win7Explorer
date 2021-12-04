@@ -36,7 +36,7 @@ const close = () => {
     showRenamePrompt.set(false)
 }
 
-let renameElement: HTMLInputElement
+let renameElement: HTMLInputElement = null
 
 selectedItemName.subscribe(value => {
     newName = value
