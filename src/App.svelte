@@ -34,7 +34,7 @@ import { showLibrariesView } from "./data/main-view";
 <style>
     .align-beside {
         display: flex;
-        height: calc(100% - 40px);
+        height: calc(100% - 100px);
         width: 100%;
         background: white;
     }

@@ -29,6 +29,7 @@ selectedFile.subscribe(value => {
         width: 100%;
         left: 0;
         padding: 5px 20px;
+        height: 50px;
     }
     img {
         width: 45px;
