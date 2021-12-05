@@ -1,26 +1,29 @@
 <script lang="ts">
 import { get } from "svelte/store";
 
-import { selectedFile } from "../../data/dynamic-menus";
+import { selectedItemName, selectedItemType } from "../../data/dynamic-menus";
+import { showDetailsPanel } from "../../data/main-view";
 import { getFileIcon } from "../../ts/getFileIcon";
 
 let fileIcon
 
-selectedFile.subscribe(value => {
+selectedItemName.subscribe(value => {
     fileIcon = getFileIcon(value)
 })
 </script>
 
-<div class="status-bar">
-    <div class="status-bar-field">
-        <img src="{$selectedFile !== "" ? "images/icons/" + fileIcon + ".png" : null}" alt="" 
-            style="display: {$selectedFile !== "" ? "block" : "none"};"
-        >
-        <div class="text">
-            <p>{$selectedFile}</p>
+{#if $showDetailsPanel}
+    <div class="status-bar">
+        <div class="status-bar-field">
+            <img src="{$selectedItemType === "file" ? "images/icons/" + fileIcon + ".png" : "images/icons/folder.ico"}" alt="" 
+                style="display: {$selectedItemName !== "" ? "block" : "none"};"
+            >
+            <div class="text">
+                <p>{$selectedItemName}</p>
+            </div>
         </div>
     </div>
-</div>
+{/if}
 
 <style>
     div.status-bar {

@@ -6,6 +6,8 @@ const selectedFile = writable("")
 const selectedFolder = writable("")
 const selectedItemName = writable("")
 
+const selectedItemType = writable("")
+
 const copiedFile = writable("")
 const isFileCopied = writable(false)
 const copiedFileName = writable("")
@@ -18,5 +20,6 @@ export {
     copiedFile,
     isFileCopied,
     copiedFileName,
-    selectedItemName
+    selectedItemName,
+    selectedItemType
 }

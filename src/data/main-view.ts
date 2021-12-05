@@ -10,7 +10,7 @@ const showFileContextMenu = writable(false)
 const showFolderContextMenu = writable(false)
 const showGlobalContextMenu = writable(false)
 
-const showDetailsPanel = writable(false)
+const showDetailsPanel = writable(true)
 const showSideBar = writable(true)
 const showLibraryPanel = writable(false)
 
