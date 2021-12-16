@@ -3,6 +3,7 @@ import { selectedFile } from "../data/dynamic-menus";
 import { openedFilePath } from "../data/main-view";
 
 const openFile = () => {
+    openedFilePath.set(get(openedFilePath))
     const file = get(openedFilePath) + "/" + get(selectedFile) 
 
     const child_process = require("child_process"); //eslint-disable-line

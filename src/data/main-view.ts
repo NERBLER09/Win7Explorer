@@ -21,6 +21,7 @@ export type customLibraryType = {
 const customLibraries: Writable<customLibraryType[]> = writable(JSON.parse(localStorage.getItem("customLibraries")) || [])
 
 openedFilePath.subscribe(() => {
+    openedFilePath.set(get(openedFilePath))
     if (get(isFileSelected) === true|| get(isFolderSelected) === true) {
         isFileSelected.set(false)
         isFolderSelected.set(false)
