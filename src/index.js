@@ -32,7 +32,10 @@ const createWindow = () => {
   mainWindow.loadFile(path.join(__dirname, '../public/index.html'));
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  if(isDev) {
+    mainWindow.webContents.openDevTools();
+  }
+
   ipcMain.on("maximize", () => {
     if(mainWindow.isMaximized()) {
       mainWindow.restore()

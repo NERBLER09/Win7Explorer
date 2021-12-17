@@ -20,6 +20,7 @@ import { backLocation, backNavStatus, forwardLocation, forwardNavStatus } from "
         }
     })
     forwardLocation.subscribe(value => {
+        console.table(value)
         forwardLocationLength = value.length
         if(value.length !== 0) {
             forwardLocationList = value
@@ -76,8 +77,8 @@ import { backLocation, backNavStatus, forwardLocation, forwardNavStatus } from "
 
 <div class="menubar">
     <div class="nav-buttons">
-        <abbr title="Back"><img src="images/header/back-{$backNavStatus}.png" alt="" title="Back to ..." on:click="{moveBack}"></abbr>
-        <abbr title="Forward"><img src="images/header/forward-{$forwardNavStatus}.png" alt="" title="Forward to ..." on:click="{moveForward}"></abbr>
+        <abbr title="Back"><img src="images/header/back-{$backNavStatus}.png" alt="" title="{$backLocation.length !== 1 ? "Back" : "Back to " + $backLocation[0]}" on:click="{moveBack}"></abbr>
+        <abbr title="Forward"><img src="images/header/forward-{$forwardNavStatus}.png" alt="" title="{$forwardLocation.length !== 1 ? "Forward" : "Forward to " + $forwardLocation[0] }" on:click="{moveForward}"></abbr>
     </div>
     <div class="address-bar">
         <form on:submit|preventDefault="{() => openFolder(openedPath)}"><input type="text" id="address-bar-input" bind:value="{openedPath}"></form>

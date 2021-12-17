@@ -1,4 +1,6 @@
 <script lang="ts">
+import { get } from "svelte/store";
+
 import { customLibraries, openedFilePath, showLibrariesView, showSideBar } from "../../data/main-view";
 import { backLocation } from "../../data/navigation";
 
@@ -6,10 +8,15 @@ import { backLocation } from "../../data/navigation";
     let showLibraryDropDown = true
 
     const openFolder = (path: string) => {
-        showLibrariesView.set(false)
+        if(get(showLibrariesView)) {
+            backLocation.update(value => ["Libraries", ...value]) 
+        }
+        else {
+            backLocation.update(value => [get(openedFilePath), ...value])
+        }
         openedFilePath.set(path)
-        backLocation.update(value => ["Libraries", ...value])
-    }
+        showLibrariesView.set(false)
+   }
     const showLibrariesViewFunction = () => {
         showLibrariesView.set(true)
     }
