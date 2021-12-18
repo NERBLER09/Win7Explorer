@@ -20,6 +20,8 @@ import { backLocation } from "../../data/navigation";
     export let folderName
     
     const selectItem = () => {
+        keepItemHighlighted.set(false)
+        appearSelected = true
         isFolderSelected.set(true)
         isFileSelected.set(false)
         selectedItemName.set(folderName)

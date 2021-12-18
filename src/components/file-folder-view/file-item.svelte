@@ -30,6 +30,8 @@ selectedItemType,
     $: fileIcon = getFileExtension(fileName);
 
     const selectItem = () => {
+        keepItemHighlighted.set(false)
+        appearSelected = true
         isFolderSelected.set(false);
         isFileSelected.set(true);
         selectedFile.set(fileName);
