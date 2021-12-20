@@ -10,12 +10,12 @@ import FileProperties from "./components/prompts/FileProperties.svelte";
 import RenameItem from "./components/prompts/rename-item.svelte";
 import Sidebar from "./components/sidebar/sidebar.svelte";
 import StatusBar from "./components/status-bar/status-bar.svelte";
-import { showLibrariesView } from "./data/main-view";
+import { showDetailsPanel, showLibrariesView } from "./data/main-view";
 </script>
 
 <Titlebar>
     <Navbar/>
-    <div class="align-beside">
+    <div class="align-beside" style="height: calc(100% - {$showDetailsPanel ? "95": "40"}px)">
         <Sidebar/>
         <DeleteFile/>
         <DeleteFolder/>
@@ -34,7 +34,6 @@ import { showLibrariesView } from "./data/main-view";
 <style>
     .align-beside {
         display: flex;
-        height: calc(100% - 100px);
         width: 100%;
         background: white;
     }

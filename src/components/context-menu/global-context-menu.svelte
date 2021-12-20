@@ -43,7 +43,7 @@ let slideOutStatus = "hide"
 {#if $showGlobalContextMenu}
     <div
         class="file-context-menu"
-        style="position:absolute; top:{topPos}px; left:{rightPos}px"
+        style="position:absolute; top:{topPos}px; left:{rightPos}px; z-index:1;"
     >
         <ul role="menu">
             <li role="menuitem" class="has-divider {$isFileCopied ? 'active' : 'disabled'}"><a href="#menu" on:click="{copyFile}">Paste</a></li>

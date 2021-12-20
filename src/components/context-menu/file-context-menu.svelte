@@ -44,5 +44,6 @@ import { get } from "svelte/store";
 <style>
     .file-context-menu {
         position: absolute;
+        z-index: 5;
     }
 </style>

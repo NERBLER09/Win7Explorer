@@ -6,6 +6,7 @@ import { isMouseDrag, keepItemHighlighted } from "../../data/itemMultiSelect";
 
 import { folderViewSystem, openedFilePath, showFolderContextMenu, showGlobalContextMenu } from "../../data/main-view";
 import { backLocation } from "../../data/navigation";
+import { boxWidth, selectItemProperties } from "../../ts/itemSelecting";
 
     let path
     openedFilePath.subscribe(value => path = value) 
@@ -36,14 +37,32 @@ import { backLocation } from "../../data/navigation";
 
     let appearSelected = false
 
-    const checkIfBeingSelected = () => {
-        if(get(isMouseDrag)) {
-            appearSelected = true
-        }
-    }
-
     keepItemHighlighted.subscribe(value => {
         if(!value) {
+            appearSelected = false
+        }
+    })
+
+    let fileElement = null
+
+    boxWidth.subscribe(() => {
+        if(fileElement === null) {
+            return
+        }
+
+        const fileElementProperties = fileElement.getBoundingClientRect()
+        const selectElementProperties = get(selectItemProperties)
+        
+        // Checks if the select box is overlapping the file item
+        if(fileElementProperties.x < selectElementProperties.x + selectElementProperties.width &&
+            fileElementProperties.x + fileElementProperties.width > selectElementProperties.x &&
+            fileElementProperties.y < selectElementProperties.y + selectElementProperties.height &&
+            fileElementProperties.y + fileElementProperties.height > selectElementProperties.y 
+        ) {
+            // Overlapping
+            appearSelected = true
+        }
+        else {
             appearSelected = false
         }
     })
@@ -51,8 +70,8 @@ import { backLocation } from "../../data/navigation";
 
 <!-- svelte-ignore a11y-mouse-events-have-key-events -->
 <button class="folder-item layout-{$folderViewSystem} explorer-button {appearSelected ? 'appear-focused' : ''}" on:dblclick="{openFolder}" on:click="{selectItem}" on:contextmenu="{showContextMenu}"
-    on:mouseover="{checkIfBeingSelected}"
     on:mouseup="{() => keepItemHighlighted.set(true)}"
+    bind:this="{fileElement}"
 >
     <img src="images/icons/folder.ico" alt="">
     <div class="text">

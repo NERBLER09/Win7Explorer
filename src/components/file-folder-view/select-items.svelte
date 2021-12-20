@@ -1,14 +1,15 @@
 <script lang="ts">
-import { boxFlipHorizontally, boxFlipVertically, boxHeight, boxWidth, initialMousePosX, initialMousePosY } from "../../ts/itemSelecting";
+import { boxFlipHorizontally, boxFlipVertically, boxHeight, boxWidth, flippedMousePosX, flippedMousePosY, initialMousePosX, initialMousePosY, selectItemElement } from "../../ts/itemSelecting";
 </script>
 
 <div class="box-select {$boxFlipHorizontally ? 'flip-horizontally' : ''}"
     style="height:{$boxHeight}px; width:{$boxWidth}px; 
-        {$boxFlipVertically ? 'bottom: ' + $initialMousePosY : 'top: ' + $initialMousePosY}px; 
-        {$boxFlipHorizontally === true ? 'right: ' + $initialMousePosX +'px' : 'left:' + $initialMousePosX + 'px' };
+        {$boxFlipVertically ? `bottom: ${$flippedMousePosY}px` : `top: ${$initialMousePosY}px`}; 
+        {$boxFlipHorizontally === true ? `right :${$flippedMousePosX}px;` : `left: ${$initialMousePosX}px` };
+        
     "
+    bind:this="{$selectItemElement}"
 >
-
 </div>
 
 <style>
@@ -19,8 +20,8 @@ import { boxFlipHorizontally, boxFlipVertically, boxHeight, boxWidth, initialMou
 
         position: absolute;
 
-        bottom: 0;
-        right: 0;
+        /* bottom: 0;
+        right: 0; */
 
         opacity: 50%;
     }

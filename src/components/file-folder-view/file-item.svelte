@@ -19,6 +19,7 @@ selectedItemType,
         showGlobalContextMenu,
     } from "../../data/main-view";
     import { getFileIcon } from "../../ts/getFileIcon";
+import { boxWidth, selectItemProperties } from "../../ts/itemSelecting";
     import { openFile } from "../../ts/openFile";
 
     export let fileName;
@@ -29,8 +30,14 @@ selectedItemType,
 
     $: fileIcon = getFileExtension(fileName);
 
-    const selectItem = () => {
-        keepItemHighlighted.set(false)
+    const selectItem = (event: MouseEvent) => {
+        if (!event?.ctrlKey) {
+            keepItemHighlighted.set(false)
+        }
+        else {
+            keepItemHighlighted.set(true)
+        }
+        
         appearSelected = true
         isFolderSelected.set(false);
         isFileSelected.set(true);
@@ -39,24 +46,42 @@ selectedItemType,
         selectedItemType.set("file")
     };
     const showContextMenu = () => {
-        selectItem();
+        selectItem(null);
         showGlobalContextMenu.set(false);
         showFileContextMenu.set(true);
     };
 
     let appearSelected = false;
 
-    const checkIfBeingSelected = () => {
-        if (get(isMouseDrag)) {
-            appearSelected = true;
-        }
-    };
-
     keepItemHighlighted.subscribe((value) => {
         if (!value) {
             appearSelected = false;
         }
     });
+
+    let fileElement = null
+
+    boxWidth.subscribe(() => {
+        if(fileElement === null) {
+            return
+        }
+
+        const fileElementProperties = fileElement.getBoundingClientRect()
+        const selectElementProperties = get(selectItemProperties)
+        
+        // Checks if the select box is overlapping the file item
+        if(fileElementProperties.x < selectElementProperties.x + selectElementProperties.width &&
+            fileElementProperties.x + fileElementProperties.width > selectElementProperties.x &&
+            fileElementProperties.y < selectElementProperties.y + selectElementProperties.height &&
+            fileElementProperties.y + fileElementProperties.height > selectElementProperties.y 
+        ) {
+            // Overlapping
+            appearSelected = true
+        }
+        else {
+            appearSelected = false
+        }
+    })
 </script>
 
 <!-- svelte-ignore a11y-mouse-events-have-key-events -->
@@ -65,10 +90,10 @@ selectedItemType,
         ? 'appear-focused'
         : ''}"
     on:dblclick={() => openFile()}
-    on:click={selectItem}
+    on:click={(event) => selectItem(event)}
     on:contextmenu={showContextMenu}
-    on:mouseover={checkIfBeingSelected}
     on:mouseup={() => keepItemHighlighted.set(true)}
+    bind:this='{fileElement}'
 >
     <img src="images/icons/{fileIcon}.png" alt="" />
     <div class="text">
