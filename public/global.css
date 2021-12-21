@@ -14,15 +14,15 @@ button.explorer-button:focus {
 	outline: none !important;
 	/* background-color: #cfe2fc !important; */
 	border: 1px !important;
-	background-image: linear-gradient(#f1f7fe, #dfedfe, #cfe4fe) !important;
+	background-image: linear-gradient(#d9e8fd, #c9ddfe, #bcd6fe) !important;
 }
-button.explorer-button:hover:not(:focus) {
+button.explorer-button:hover:not(:focus, .appear-focused) {
 	background-image: linear-gradient(#ffffff, #e2f0ff) !important;
 }
 
-button.explorer-button.appear-focused:not(:hover) {
+button.explorer-button.appear-focused {
 	outline: none !important;
 	/* background-color: #cfe2fc !important; */
 	border: 1px !important;
-	background-image: linear-gradient(#f1f7fe, #dfedfe, #cfe4fe) !important;
+	background-image: linear-gradient(#d9e8fd, #c9ddfe, #bcd6fe) !important;
 }

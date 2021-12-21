@@ -31,7 +31,8 @@ import { boxWidth, selectItemProperties } from "../../ts/itemSelecting";
     $: fileIcon = getFileExtension(fileName);
 
     const selectItem = (event: MouseEvent) => {
-        if (!event?.ctrlKey) {
+        if (!event?.ctrlKey && event?.button === 0) {
+            console.log("test")
             keepItemHighlighted.set(false)
         }
         else {
@@ -104,6 +105,7 @@ import { boxWidth, selectItemProperties } from "../../ts/itemSelecting";
 <style>
     .file-item {
         overflow: hidden;
+        margin-right: 5px;
     }
     .layout-tiles {
         display: flex;
@@ -192,11 +194,11 @@ import { boxWidth, selectItemProperties } from "../../ts/itemSelecting";
         height: auto;
         overflow: hidden;
     }
-    .layout-large-extra-icons img {
+    .layout-extra-large-icons img {
         width: 120px;
         height: 120px;
     }
-    .layout-large-extra-icons {
+    .layout-extra-large-icons {
         display: flex;
         align-items: center;
         justify-content: center;

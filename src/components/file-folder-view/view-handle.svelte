@@ -65,7 +65,11 @@ const getMousePos = (event) => {
 
 let keepItemSelected = true
 
-const startItemDrag = (event) => {
+const startItemDrag = (event: MouseEvent) => {
+    if(event.ctrlKey) {
+        return
+    }
+
     isMouseDrag.set(true)
 
     unHighlightItems()
@@ -94,6 +98,10 @@ const unHighlightItems = () => {
 
     keepItemSelected = false 
 }
+
+openedFilePath.subscribe(() => {
+    unHighlightItems()
+})
 </script>
 <div class="view" on:mousemove="{(event) => {
     getMousePos(event)

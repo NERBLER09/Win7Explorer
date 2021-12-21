@@ -60,7 +60,7 @@ $: selectText(renameElement)
             </div>
         </div>
         <div class="window-body">
-            <form action="">
+            <form on:submit|preventDefault="{renameItemFunction}">
                 <label for="name-input">New name:</label>
                 <input type="text" id="name-input" bind:value="{newName}" bind:this="{renameElement}">
             </form>

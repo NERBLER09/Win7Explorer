@@ -16,7 +16,8 @@ import { boxFlipHorizontally, boxFlipVertically, boxHeight, boxWidth, flippedMou
     .box-select {
         outline: none !important;
         border: 1px !important;
-        background-image: linear-gradient(#f1f7fe, #dfedfe, #cfe4fe) !important;
+        /* background-image: linear-gradient(#f1f7fe, #dfedfe, #cfe4fe) !important; */
+        background-color: rgb(0, 0, 255);
 
         position: absolute;
 
