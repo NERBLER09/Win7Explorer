@@ -20,7 +20,6 @@ import { backLocation, backNavStatus, forwardLocation, forwardNavStatus } from "
         }
     })
     forwardLocation.subscribe(value => {
-        console.table(value)
         forwardLocationLength = value.length
         if(value.length !== 0) {
             forwardLocationList = value

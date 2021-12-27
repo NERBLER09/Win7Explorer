@@ -2,9 +2,11 @@
     import { get } from "svelte/store";
 
     import {
+isFileCopied,
         isFileSelected,
         isFolderSelected,
         selectedFolder,
+        selectedItemList,
         selectedItemName,
         selectedItemType,
     } from "../../data/dynamic-menus";
@@ -37,19 +39,27 @@
     export let folderName;
 
     const selectItem = (event: MouseEvent) => {
-        if (!event?.ctrlKey) {
-            keepItemHighlighted.set(false)
-        }
-        else {
-            keepItemHighlighted.set(true)
-        }
-
         appearSelected = true;
         isFolderSelected.set(true);
         isFileSelected.set(false);
         selectedItemName.set(folderName);
         selectedFolder.set(`${get(openedFilePath)}/${folderName}`);
         selectedItemType.set("folder");
+
+        if(get(isFileCopied)) {
+            return
+        }
+
+        if (!event?.ctrlKey && event?.button === 0 && event !== null) {
+            selectedItemList.set([])
+            selectedItemList.update(value => [...value, folderName ])
+            keepItemHighlighted.set(false)
+        }
+        else {
+            selectedItemList.update(value => [...value, folderName ])
+            keepItemHighlighted.set(true)
+        }
+ 
     };
     const showContextMenu = () => {
         selectItem(null);
@@ -87,11 +97,28 @@
                 selectElementProperties.y
         ) {
             // Overlapping
-            appearSelected = true;
-        } else {
-            appearSelected = false;
+            appearSelected = true
+
+            if(!get(selectedItemList).includes(folderName)) {
+                selectedItemList.update(value => [folderName, ...value])
+            }
         }
-    });
+        else {
+            // Not overlapping
+            const selectedFileItems = get(selectedItemList)
+            if(selectedFileItems.includes(folderName) && !get(keepItemHighlighted)) {
+                selectedItemList.set(get(selectedItemList).splice(selectedFileItems.indexOf(folderName), 1))
+            }
+
+            appearSelected = false
+        }
+
+        isFileSelected.set(true)
+        if(get(selectedItemList).length !== 0) {
+            selectedFolder.set(get(selectedItemList)[0])
+        }
+
+   });
 </script>
 
 <!-- svelte-ignore a11y-mouse-events-have-key-events -->

@@ -1,7 +1,7 @@
 <script lang="ts">
-import { openedFilePath, showFileContextMenu, showFolderContextMenu } from "../../data/main-view"
-import { renameItem, showDeleteFilePrompt, showDeleteFolderPrompt, showRenamePrompt } from "../../data/prompts";
-import { copiedFile, selectedFile, selectedFolder } from "../../data/dynamic-menus";
+import { openedFilePath, showFolderContextMenu } from "../../data/main-view"
+import { renameItem, showDeleteFolderPrompt, showRenamePrompt } from "../../data/prompts";
+import { copiedItemList, isFileCopied,  selectedFolder, selectedItemList } from "../../data/dynamic-menus";
 import { get } from "svelte/store";
 
     export let rightPos: number
@@ -11,7 +11,16 @@ import { get } from "svelte/store";
         showDeleteFolderPrompt.set(true)
     }
     const copyFile = () => {
-        copiedFile.set(`${get(openedFilePath)}/${get(selectedFile)}`)
+        isFileCopied.set(true)
+
+        if(get(selectedItemList).length !== 0) {
+            for(const selectedItem of get(selectedItemList)) {
+                if(!checkForMatchingCopiedItems(`${get(openedFilePath)}/${selectedItem}`)) {
+                    const file = `${get(openedFilePath)}/${selectedItem}`
+                    copiedItemList.update(value => [file, ...value])
+                }
+           }
+        } 
     }
     const openFolder = () => {
         openedFilePath.set(get(selectedFolder))
@@ -20,6 +29,14 @@ import { get } from "svelte/store";
     const renameFolder = () => {
         showRenamePrompt.set(true)
         renameItem.set("folder")
+    }
+
+    const checkForMatchingCopiedItems = (query: string): boolean => {
+        if(get(copiedItemList).includes(query)) {
+            return true
+        }
+
+        return false
     }
 </script>
 

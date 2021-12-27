@@ -2,7 +2,7 @@
 import { openedFilePath, showFileContextMenu } from "../../data/main-view"
 import { openFile } from "../../ts/openFile"
 import { renameItem, showDeleteFilePrompt, showFilePropertiesPanel, showRenamePrompt } from "../../data/prompts";
-import { copiedFile, copiedFileName, isFileCopied, selectedFile } from "../../data/dynamic-menus";
+import { copiedFile, copiedFileName, copiedItemList, isFileCopied, selectedFile, selectedItemList } from "../../data/dynamic-menus";
 import { get } from "svelte/store";
 
     export let rightPos: number
@@ -12,9 +12,16 @@ import { get } from "svelte/store";
         showDeleteFilePrompt.set(true)
     }
     const copyFile = () => {
-        copiedFile.set(`${get(openedFilePath)}/${get(selectedFile)}`)
-        copiedFileName.set(get(selectedFile))
         isFileCopied.set(true)
+
+        if(get(selectedItemList).length !== 0) {
+            for(const selectedItem of get(selectedItemList)) {
+               if(!checkForMatchingCopiedItems(`${get(openedFilePath)}/${selectedItem}`)) {
+                    const file = `${get(openedFilePath)}/${selectedItem}`
+                    copiedItemList.update(value => [file, ...value])
+                }
+            }
+        }
     }
     const renameFile = () => {
         showRenamePrompt.set(true)
@@ -22,6 +29,13 @@ import { get } from "svelte/store";
     }
     const showProperties = () => {
         showFilePropertiesPanel.set(true)
+    }
+    const checkForMatchingCopiedItems = (query: string): boolean => {
+        if(get(copiedItemList).includes(query)) {
+            return true
+        }
+
+        return false
     }
 </script>
 

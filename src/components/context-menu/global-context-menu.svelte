@@ -1,8 +1,10 @@
 <script lang="ts">
 import { get } from "svelte/store";
-import { copiedFile, copiedFileName, isFileCopied } from "../../data/dynamic-menus";
+import { copiedFile, copiedFileName, copiedItemList, isFileCopied, selectedItemList } from "../../data/dynamic-menus";
 
+const Fs = require('@supercharge/filesystem')
 const fs = require('fs');
+const fse = require("fs-extra")
 
 import { openedFilePath, showGlobalContextMenu } from "../../data/main-view";
 
@@ -30,13 +32,38 @@ let slideOutStatus = "hide"
     }
 
     const copyFile = () => {
-        if(get(isFileCopied)) {
-            fs.copyFile(get(copiedFile), `${get(openedFilePath)}/${get(copiedFileName)}`, (error) => {
-                if(error) {
-                    alert("Copied file not found")
+        if(get(copiedItemList).length !== 0) {
+            for(let i = 0; i < get(copiedItemList).length; i++) {
+                const copiedItem = get(copiedItemList)[i]
+
+                const selectedItemName = get(selectedItemList)[i]
+                
+                if(selectedItemName === undefined) {
+                    alert("Something when't wrong when coping the file(s)/folder(s)")
+                    return
                 }
-            })
+
+                Fs.isDirectory(copiedItem).then((value: boolean) => {
+                    if(value) {
+                        // console.log(copiedItem)
+                        fse.copy(copiedItem, `${get(openedFilePath)}/${selectedItemName}`, (error) => {
+                            if(error) {
+                                alert(error)
+                            }
+                        })
+                    }
+                    else {
+                        fs.copyFile(copiedItem, `${get(openedFilePath)}/${selectedItemName}`, (error) => {
+                            if(error) {
+                                alert(error)
+                            }
+                        })
+                    }
+                })
+            }
         }
+
+        copiedItemList.set([])
     }
 </script>
 

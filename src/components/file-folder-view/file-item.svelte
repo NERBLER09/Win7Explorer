@@ -2,14 +2,15 @@
     import { get } from "svelte/store";
 
     import {
+isFileCopied,
         isFileSelected,
         isFolderSelected,
         selectedFile,
+selectedItemList,
 selectedItemName,
 selectedItemType,
     } from "../../data/dynamic-menus";
     import {
-        isMouseDrag,
         keepItemHighlighted,
     } from "../../data/itemMultiSelect";
 
@@ -31,20 +32,26 @@ import { boxWidth, selectItemProperties } from "../../ts/itemSelecting";
     $: fileIcon = getFileExtension(fileName);
 
     const selectItem = (event: MouseEvent) => {
-        if (!event?.ctrlKey && event?.button === 0) {
-            console.log("test")
-            keepItemHighlighted.set(false)
-        }
-        else {
-            keepItemHighlighted.set(true)
-        }
-        
         appearSelected = true
         isFolderSelected.set(false);
         isFileSelected.set(true);
         selectedFile.set(fileName);
         selectedItemName.set(fileName)
         selectedItemType.set("file")
+
+        if(get(isFileCopied)) {
+            return
+        }
+
+        if (!event?.ctrlKey && event?.button === 0 && event !== null) {
+            selectedItemList.set([])
+            selectedItemList.update(value => [...value, fileName ])
+            keepItemHighlighted.set(false)
+        }
+        else {
+            selectedItemList.update(value => [...value, fileName ])
+            keepItemHighlighted.set(true)
+        }
     };
     const showContextMenu = () => {
         selectItem(null);
@@ -78,10 +85,26 @@ import { boxWidth, selectItemProperties } from "../../ts/itemSelecting";
         ) {
             // Overlapping
             appearSelected = true
+
+            if(!get(selectedItemList).includes(fileName)) {
+                selectedItemList.update(value => [fileName, ...value])
+            }
         }
         else {
+            // Not overlapping
+            const selectedFileItems = get(selectedItemList)
+            if(selectedFileItems.includes(fileName) && !get(keepItemHighlighted)) {
+                selectedItemList.set(get(selectedItemList).splice(selectedFileItems.indexOf(fileName), 1))
+            }
+
             appearSelected = false
         }
+
+        isFileSelected.set(true)
+        if(get(selectedItemList).length !== 0) {
+            selectedFile.set(get(selectedItemList)[0])
+        }
+
     })
 </script>
 

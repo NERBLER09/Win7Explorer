@@ -1,16 +1,25 @@
-import { writable } from "svelte/store";
+import { Writable, writable } from "svelte/store";
+import { keepItemHighlighted } from "./itemMultiSelect";
 
 const isFolderSelected = writable(false)
 const isFileSelected = writable(false)
 const selectedFile = writable("")
 const selectedFolder = writable("")
 const selectedItemName = writable("")
+const selectedItemList: Writable<string[]> = writable([])
 
 const selectedItemType = writable("")
 
 const copiedFile = writable("")
 const isFileCopied = writable(false)
 const copiedFileName = writable("")
+const copiedItemList = writable([])
+
+keepItemHighlighted.subscribe((value: boolean) => {
+    // if(!value) {
+    //     copiedItemList.set([])
+    // }
+})
 
 export {
     isFileSelected,
@@ -21,5 +30,7 @@ export {
     isFileCopied,
     copiedFileName,
     selectedItemName,
-    selectedItemType
+    selectedItemType,
+    selectedItemList,
+    copiedItemList
 }

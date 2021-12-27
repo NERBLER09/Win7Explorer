@@ -3,20 +3,27 @@
 <script lang="ts">
 import { get } from "svelte/store";
 
-import { copiedFile, copiedFileName, isFileCopied, isFileSelected, isFolderSelected, selectedFile, selectedItemName } from "../../../data/dynamic-menus";
+import { copiedItemList, isFileCopied, isFileSelected, isFolderSelected, selectedItemList } from "../../../data/dynamic-menus";
 
 import { openedFilePath, showDetailsPanel, showLibraryPanel, showSideBar } from "../../../data/main-view";
 import { renameItem, showDeleteFilePrompt, showFilePropertiesPanel, showRenamePrompt } from "../../../data/prompts";
 
-const {copy} = require("fs-extra")
+const fse = require("fs-extra")
+const Fs = require('@supercharge/filesystem')
+const fs = require('fs');
 
     const deleteFile = () => {
         showDeleteFilePrompt.set(true)
     }
     const copyFile = () => {
-        copiedFile.set(`${get(openedFilePath)}/${get(selectedItemName)}`)
-        copiedFileName.set(get(selectedItemName))
         isFileCopied.set(true)
+
+        if(get(selectedItemList).length !== 0) {
+            for(const selectedItem of get(selectedItemList)) {
+                const file = `${get(openedFilePath)}/${selectedItem}`
+                copiedItemList.update(value => [file, ...value])
+           }
+        }
     }
     const renameFile = () => {
         showRenamePrompt.set(true)
@@ -26,13 +33,38 @@ const {copy} = require("fs-extra")
         showFilePropertiesPanel.set(true)
     }
     const pasteItem = () => {
-        if(get(isFileCopied)) {
-            copy(get(copiedFile), `${get(openedFilePath)}/${get(copiedFileName)}`, (error) => {
-                if(error) {
-                    alert("Copied file not found")
+        if(get(copiedItemList).length !== 0) {
+            for(let i = 0; i < get(copiedItemList).length; i++) {
+                const copiedItem = get(copiedItemList)[i]
+
+                const selectedItemName = get(selectedItemList)[i]
+                
+                if(selectedItemName === undefined) {
+                    alert("Something when't wrong when coping the file(s)/folder(s)")
+                    return
                 }
-            })
+
+                Fs.isDirectory(copiedItem).then((value: boolean) => {
+                    if(value) {
+                        fse.copy(copiedItem, `${get(openedFilePath)}/${selectedItemName}`, (error) => {
+                            if(error) {
+                                alert(error)
+                            }
+                        })
+                    }
+                    else {
+                        fs.copyFile(copiedItem, `${get(openedFilePath)}/${selectedItemName}`, (error) => {
+                            if(error) {
+                                alert(error)
+                            }
+                        })
+                    }
+                })
+            }
         }
+
+        copiedItemList.set([])
+
     }
 </script>
 

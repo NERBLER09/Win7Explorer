@@ -11,6 +11,7 @@ import GlobalContextMenu from "../context-menu/global-context-menu.svelte";
 import { isMouseDrag, keepItemHighlighted } from "../../data/itemMultiSelect";
 import SelectItems from "./select-items.svelte";
 import { boxHeight, boxWidth, drawBox, flippedMousePosX, flippedMousePosY, initialMousePosX, initialMousePosY } from "../../ts/itemSelecting";
+import { selectedItemList } from "../../data/dynamic-menus";
 
 const { readdirSync, watch } = require("fs")
 
@@ -66,7 +67,7 @@ const getMousePos = (event) => {
 let keepItemSelected = true
 
 const startItemDrag = (event: MouseEvent) => {
-    if(event.ctrlKey) {
+    if(event.ctrlKey || event.button === 2) {
         return
     }
 
@@ -107,7 +108,7 @@ openedFilePath.subscribe(() => {
     getMousePos(event)
     drawBox(event)
 }}" on:contextmenu|self="{() => showGlobalContextMenu.set(true)}"
-    on:mousedown="{(event) => startItemDrag(event)}"
+    on:mousedown|self="{(event) => startItemDrag(event)}"
     on:mouseup="{(event) => stopItemDrag(event)}"
     on:click|self="{unHighlightItems}"
 >
