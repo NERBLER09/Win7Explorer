@@ -1,8 +1,7 @@
 <script lang="ts">
 import { get } from "svelte/store";
-import { copiedFile, copiedFileName, copiedItemList, isFileCopied, selectedItemList } from "../../data/dynamic-menus";
+import { copiedFile, copiedFileName, copiedItemInterface, copiedItemList, isFileCopied, selectedItemList } from "../../data/dynamic-menus";
 
-const Fs = require('@supercharge/filesystem')
 const fs = require('fs');
 const fse = require("fs-extra")
 
@@ -34,32 +33,29 @@ let slideOutStatus = "hide"
     const copyFile = () => {
         if(get(copiedItemList).length !== 0) {
             for(let i = 0; i < get(copiedItemList).length; i++) {
-                const copiedItem = get(copiedItemList)[i]
-
+                const copiedItem: copiedItemInterface = get(copiedItemList)[i]
                 const selectedItemName = get(selectedItemList)[i]
+                const finalCopiedItem = `${get(openedFilePath)}/${selectedItemName}`
                 
                 if(selectedItemName === undefined) {
                     alert("Something when't wrong when coping the file(s)/folder(s)")
                     return
                 }
-
-                Fs.isDirectory(copiedItem).then((value: boolean) => {
-                    if(value) {
-                        // console.log(copiedItem)
-                        fse.copy(copiedItem, `${get(openedFilePath)}/${selectedItemName}`, (error) => {
-                            if(error) {
-                                alert(error)
-                            }
-                        })
-                    }
-                    else {
-                        fs.copyFile(copiedItem, `${get(openedFilePath)}/${selectedItemName}`, (error) => {
-                            if(error) {
-                                alert(error)
-                            }
-                        })
-                    }
-                })
+                
+               if(copiedItem.type === "file") {
+                    fs.copyFile(copiedItem.name, finalCopiedItem, (error) => {
+                        if(error) {
+                            alert(error)
+                        }
+                    })
+               } 
+               else {
+                    fse.copy(copiedItem.name, finalCopiedItem, (error) => {
+                        if(error) {
+                            alert(error)
+                        }
+                    })
+               }
             }
         }
 

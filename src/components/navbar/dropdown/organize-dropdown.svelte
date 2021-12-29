@@ -3,13 +3,12 @@
 <script lang="ts">
 import { get } from "svelte/store";
 
-import { copiedItemList, isFileCopied, isFileSelected, isFolderSelected, selectedItemList } from "../../../data/dynamic-menus";
+import { copiedItemInterface, copiedItemList, copiedItemType, isFileCopied, isFileSelected, isFolderSelected, selectedItemList } from "../../../data/dynamic-menus";
 
 import { openedFilePath, showDetailsPanel, showLibraryPanel, showSideBar } from "../../../data/main-view";
 import { renameItem, showDeleteFilePrompt, showFilePropertiesPanel, showRenamePrompt } from "../../../data/prompts";
 
 const fse = require("fs-extra")
-const Fs = require('@supercharge/filesystem')
 const fs = require('fs');
 
     const deleteFile = () => {
@@ -21,10 +20,20 @@ const fs = require('fs');
         if(get(selectedItemList).length !== 0) {
             for(const selectedItem of get(selectedItemList)) {
                 const file = `${get(openedFilePath)}/${selectedItem}`
-                copiedItemList.update(value => [file, ...value])
-           }
-        }
-    }
+                
+                if(!checkForMatchingCopiedItems(file)) {
+                    let itemType: copiedItemType
+
+                    if(!fs.lstatSync(file).isDirectory()) {
+                        itemType = "file"
+                    }
+                    else {
+                        itemType = "folder"
+                    }
+                    copiedItemList.update(value => [...value, {name: file, type: itemType}])
+                }
+            }
+        }   }
     const renameFile = () => {
         showRenamePrompt.set(true)
         renameItem.set("file")
@@ -35,36 +44,44 @@ const fs = require('fs');
     const pasteItem = () => {
         if(get(copiedItemList).length !== 0) {
             for(let i = 0; i < get(copiedItemList).length; i++) {
-                const copiedItem = get(copiedItemList)[i]
-
+                const copiedItem: copiedItemInterface = get(copiedItemList)[i]
                 const selectedItemName = get(selectedItemList)[i]
+                const finalCopiedItem = `${get(openedFilePath)}/${selectedItemName}`
                 
                 if(selectedItemName === undefined) {
                     alert("Something when't wrong when coping the file(s)/folder(s)")
                     return
                 }
-
-                Fs.isDirectory(copiedItem).then((value: boolean) => {
-                    if(value) {
-                        fse.copy(copiedItem, `${get(openedFilePath)}/${selectedItemName}`, (error) => {
-                            if(error) {
-                                alert(error)
-                            }
-                        })
-                    }
-                    else {
-                        fs.copyFile(copiedItem, `${get(openedFilePath)}/${selectedItemName}`, (error) => {
-                            if(error) {
-                                alert(error)
-                            }
-                        })
-                    }
-                })
+                
+               if(copiedItem.type === "file") {
+                    fs.copyFile(copiedItem.name, finalCopiedItem, (error) => {
+                        if(error) {
+                            alert(error)
+                        }
+                    })
+               } 
+               else {
+                    fse.copy(copiedItem.name, finalCopiedItem, (error) => {
+                        if(error) {
+                            alert(error)
+                        }
+                    })
+               }
             }
         }
 
         copiedItemList.set([])
+    }
+    const checkForMatchingCopiedItems = (query: string): boolean => {
+        for(let i = 0; i < get(selectedItemList).length; i++) {
+            const copiedItem = get(copiedItemList)[i] 
 
+            if(copiedItem?.name === query) {
+                return true
+            }
+        }
+
+        return false
     }
 </script>
 

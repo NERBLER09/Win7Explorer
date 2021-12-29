@@ -2,8 +2,10 @@
 import { openedFilePath, showFileContextMenu } from "../../data/main-view"
 import { openFile } from "../../ts/openFile"
 import { renameItem, showDeleteFilePrompt, showFilePropertiesPanel, showRenamePrompt } from "../../data/prompts";
-import { copiedFile, copiedFileName, copiedItemList, isFileCopied, selectedFile, selectedItemList } from "../../data/dynamic-menus";
+import { copiedFile, copiedFileName, copiedItemList, copiedItemType, isFileCopied, selectedFile, selectedItemList } from "../../data/dynamic-menus";
 import { get } from "svelte/store";
+
+const fs = require("fs")
 
     export let rightPos: number
     export let topPos: number
@@ -16,13 +18,23 @@ import { get } from "svelte/store";
 
         if(get(selectedItemList).length !== 0) {
             for(const selectedItem of get(selectedItemList)) {
-               if(!checkForMatchingCopiedItems(`${get(openedFilePath)}/${selectedItem}`)) {
-                    const file = `${get(openedFilePath)}/${selectedItem}`
-                    copiedItemList.update(value => [file, ...value])
+                const file = `${get(openedFilePath)}/${selectedItem}`
+                
+                if(!checkForMatchingCopiedItems(file)) {
+                    let itemType: copiedItemType
+
+                    if(!fs.lstatSync(file).isDirectory()) {
+                        itemType = "file"
+                    }
+                    else {
+                        itemType = "folder"
+                    }
+                    copiedItemList.update(value => [...value, {name: file, type: itemType}])
                 }
             }
         }
     }
+
     const renameFile = () => {
         showRenamePrompt.set(true)
         renameItem.set("file")
@@ -31,8 +43,12 @@ import { get } from "svelte/store";
         showFilePropertiesPanel.set(true)
     }
     const checkForMatchingCopiedItems = (query: string): boolean => {
-        if(get(copiedItemList).includes(query)) {
-            return true
+        for(let i = 0; i < get(selectedItemList).length; i++) {
+            const copiedItem = get(copiedItemList)[i] 
+
+            if(copiedItem?.name === query) {
+                return true
+            }
         }
 
         return false

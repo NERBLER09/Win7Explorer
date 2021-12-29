@@ -13,13 +13,13 @@ const selectedItemType = writable("")
 const copiedFile = writable("")
 const isFileCopied = writable(false)
 const copiedFileName = writable("")
-const copiedItemList = writable([])
 
-keepItemHighlighted.subscribe((value: boolean) => {
-    // if(!value) {
-    //     copiedItemList.set([])
-    // }
-})
+export type copiedItemType = "folder" | "file"
+export interface copiedItemInterface {
+    name: string,
+    type: copiedItemType
+}
+export const copiedItemList: Writable<copiedItemInterface[]> = writable([])
 
 export {
     isFileSelected,
@@ -31,6 +31,5 @@ export {
     copiedFileName,
     selectedItemName,
     selectedItemType,
-    selectedItemList,
-    copiedItemList
+    selectedItemList
 }
