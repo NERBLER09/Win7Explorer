@@ -1,6 +1,6 @@
 <script lang="ts">
 import { get } from "svelte/store";
-import { copiedFile, copiedFileName, copiedItemInterface, copiedItemList, isFileCopied, selectedItemList } from "../../data/dynamic-menus";
+import { copiedFile, copiedFileName, copiedItemInterface, copiedItemList, isFileCopied, moveCopiedItems, selectedItemList } from "../../data/dynamic-menus";
 
 const fs = require('fs');
 const fse = require("fs-extra")
@@ -36,26 +36,41 @@ let slideOutStatus = "hide"
                 const copiedItem: copiedItemInterface = get(copiedItemList)[i]
                 const selectedItemName = get(selectedItemList)[i]
                 const finalCopiedItem = `${get(openedFilePath)}/${selectedItemName}`
-                
+
                 if(selectedItemName === undefined) {
                     alert("Something when't wrong when coping the file(s)/folder(s)")
                     return
                 }
                 
-               if(copiedItem.type === "file") {
+               if(copiedItem.type === "file" && !get(moveCopiedItems)) {
                     fs.copyFile(copiedItem.name, finalCopiedItem, (error) => {
                         if(error) {
                             alert(error)
                         }
                     })
                } 
-               else {
+               if(copiedItem.type === "folder" && !get(moveCopiedItems)) {
                     fse.copy(copiedItem.name, finalCopiedItem, (error) => {
                         if(error) {
                             alert(error)
                         }
                     })
-               }
+                }
+
+                if(copiedItem.type === "file" && get(moveCopiedItems)) {
+                    fs.rename(copiedItem.name, finalCopiedItem, (error) => {
+                        if(error) {
+                            alert(error)
+                        }
+                    })
+                } 
+                else if(copiedItem.type === "folder" && get(moveCopiedItems)) {
+                    fse.move(copiedItem.name, finalCopiedItem, (error) => {
+                        if(error) {
+                            alert(error)
+                        }
+                    })
+                }
             }
         }
 

@@ -2,7 +2,7 @@
 import { openedFilePath, showFileContextMenu } from "../../data/main-view"
 import { openFile } from "../../ts/openFile"
 import { renameItem, showDeleteFilePrompt, showFilePropertiesPanel, showRenamePrompt } from "../../data/prompts";
-import { copiedFile, copiedFileName, copiedItemList, copiedItemType, isFileCopied, selectedFile, selectedItemList } from "../../data/dynamic-menus";
+import { copiedFile, copiedFileName, copiedItemList, copiedItemType, isFileCopied, moveCopiedItems, selectedFile, selectedItemList } from "../../data/dynamic-menus";
 import { get } from "svelte/store";
 
 const fs = require("fs")
@@ -13,7 +13,8 @@ const fs = require("fs")
     const deleteFile = () => {
         showDeleteFilePrompt.set(true)
     }
-    const copyFile = () => {
+    const copyFile = (type: "move" | "copy") => {
+        moveCopiedItems.set(type === "copy" ? false : true)
         isFileCopied.set(true)
 
         if(get(selectedItemList).length !== 0) {
@@ -62,8 +63,8 @@ const fs = require("fs")
     >
         <ul role="menu">
             <li role="menuitem" on:click="{() => openFile()}" class="has-divider"><a href="#menu">Open</a></li>
-            <ul role="menuitem" on:click="{copyFile}"><a href="#menu">Cut</a></ul>
-            <ul role="menuitem" class="has-divider" on:click="{copyFile}"><a href="#menu">Copy</a></ul>
+            <ul role="menuitem" on:click="{() => copyFile("move")}"><a href="#menu">Cut</a></ul>
+            <ul role="menuitem" class="has-divider" on:click="{() => copyFile("copy")}"><a href="#menu">Copy</a></ul>
             <ul role="menuitem" on:click="{() => deleteFile()}"><a href="#menu">Delete</a></ul>
             <ul role="menuitem" class="has-divider" on:click="{renameFile}"><a href="#menu">Rename</a></ul>
             <ul role="menuitem" on:click="{showProperties}"><a href="#menu">Properties</a></ul>

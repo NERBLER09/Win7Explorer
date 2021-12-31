@@ -3,7 +3,7 @@
 <script lang="ts">
 import { get } from "svelte/store";
 
-import { copiedItemInterface, copiedItemList, copiedItemType, isFileCopied, isFileSelected, isFolderSelected, selectedItemList } from "../../../data/dynamic-menus";
+import { copiedItemInterface, copiedItemList, copiedItemType, isFileCopied, isFileSelected, isFolderSelected, moveCopiedItems, selectedItemList } from "../../../data/dynamic-menus";
 
 import { openedFilePath, showDetailsPanel, showLibraryPanel, showSideBar } from "../../../data/main-view";
 import { renameItem, showDeleteFilePrompt, showFilePropertiesPanel, showRenamePrompt } from "../../../data/prompts";
@@ -14,8 +14,10 @@ const fs = require('fs');
     const deleteFile = () => {
         showDeleteFilePrompt.set(true)
     }
-    const copyFile = () => {
+    const copyFile = (type: "move" | "copy") => {
+        moveCopiedItems.set(type === "copy" ? false : true)
         isFileCopied.set(true)
+
 
         if(get(selectedItemList).length !== 0) {
             for(const selectedItem of get(selectedItemList)) {
@@ -47,27 +49,43 @@ const fs = require('fs');
                 const copiedItem: copiedItemInterface = get(copiedItemList)[i]
                 const selectedItemName = get(selectedItemList)[i]
                 const finalCopiedItem = `${get(openedFilePath)}/${selectedItemName}`
-                
+
                 if(selectedItemName === undefined) {
                     alert("Something when't wrong when coping the file(s)/folder(s)")
                     return
                 }
                 
-               if(copiedItem.type === "file") {
+               if(copiedItem.type === "file" && !get(moveCopiedItems)) {
                     fs.copyFile(copiedItem.name, finalCopiedItem, (error) => {
                         if(error) {
                             alert(error)
                         }
                     })
                } 
-               else {
+               if(copiedItem.type === "folder" && !get(moveCopiedItems)) {
                     fse.copy(copiedItem.name, finalCopiedItem, (error) => {
                         if(error) {
                             alert(error)
                         }
                     })
-               }
+                }
+
+                if(copiedItem.type === "file" && get(moveCopiedItems)) {
+                    fs.rename(copiedItem.name, finalCopiedItem, (error) => {
+                        if(error) {
+                            alert(error)
+                        }
+                    })
+                } 
+                else if(copiedItem.type === "folder" && get(moveCopiedItems)) {
+                    fse.move(copiedItem.name, finalCopiedItem, (error) => {
+                        if(error) {
+                            alert(error)
+                        }
+                    })
+                }
             }
+ 
         }
 
         copiedItemList.set([])
@@ -86,14 +104,14 @@ const fs = require('fs');
 </script>
 
 <ul role="menu" class="keep-shown">
-    <li role="menuitem" on:click="{copyFile}">
+    <ul role="menuitem" on:click="{() => copyFile("move")}">
         <img src="" alt="" />
         <a href="#menu" class="{$isFileSelected || $isFolderSelected ? "" : "disabled"}">Cut</a>
-    </li>
-    <li role="menuitem" on:click="{copyFile}">
+    </ul>
+    <ul role="menuitem" on:click="{() => copyFile("copy")}">
         <img src="" alt="" />
         <a href="#menu" class="{$isFileSelected || $isFolderSelected ? "" : "disabled"}">Copy</a>
-    </li>
+    </ul>
     <li role="menuitem" on:click="{pasteItem}">
         <img src="" alt="" />
         <a href="#menu" class="{$isFileCopied ? "" : "disabled"}">Paste</a>

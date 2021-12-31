@@ -1,5 +1,4 @@
 import { Writable, writable } from "svelte/store";
-import { keepItemHighlighted } from "./itemMultiSelect";
 
 const isFolderSelected = writable(false)
 const isFileSelected = writable(false)
@@ -13,6 +12,7 @@ const selectedItemType = writable("")
 const copiedFile = writable("")
 const isFileCopied = writable(false)
 const copiedFileName = writable("")
+const moveCopiedItems = writable(false)
 
 export type copiedItemType = "folder" | "file"
 export interface copiedItemInterface {
@@ -31,5 +31,6 @@ export {
     copiedFileName,
     selectedItemName,
     selectedItemType,
-    selectedItemList
+    selectedItemList,
+    moveCopiedItems
 }
